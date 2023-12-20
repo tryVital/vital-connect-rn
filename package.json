@@ -1,0 +1,60 @@
+{
+  "name": "vitalReactNativeApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "lint": "eslint .",
+    "start": "react-native start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@gluestack-style/react": "^1.0.29",
+    "@gluestack-ui/config": "^1.0.10",
+    "@gluestack-ui/themed": "^1.0.30",
+    "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-native-masked-view/masked-view": "^0.3.1",
+    "@react-navigation/bottom-tabs": "^6.5.11",
+    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/native-stack": "^6.9.17",
+    "@react-navigation/stack": "^6.3.20",
+    "@tryvital/vital-core-react-native": "^2.0.0",
+    "@tryvital/vital-health-react-native": "^2.0.0",
+    "@types/react-native-svg-charts": "^5.0.15",
+    "@types/react-native-vector-icons": "^6.4.18",
+    "date-fns": "^3.0.0",
+    "react": "18.2.0",
+    "react-content-loader": "^6.2.1",
+    "react-native": "0.73.0",
+    "react-native-config": "^1.5.1",
+    "react-native-gesture-handler": "^2.14.0",
+    "react-native-safari-view": "^2.1.0",
+    "react-native-safe-area-context": "^4.8.1",
+    "react-native-screens": "^3.29.0",
+    "react-native-select-dropdown": "^3.4.0",
+    "react-native-svg": "^14.1.0",
+    "react-native-svg-charts": "^5.4.0",
+    "react-native-vector-icons": "^10.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@babel/preset-env": "^7.20.0",
+    "@babel/runtime": "^7.20.0",
+    "@react-native/babel-preset": "^0.73.18",
+    "@react-native/eslint-config": "^0.73.1",
+    "@react-native/metro-config": "^0.73.2",
+    "@react-native/typescript-config": "^0.73.1",
+    "@types/react": "^18.2.6",
+    "@types/react-test-renderer": "^18.0.0",
+    "babel-jest": "^29.6.3",
+    "eslint": "^8.19.0",
+    "jest": "^29.6.3",
+    "prettier": "2.8.8",
+    "react-test-renderer": "18.2.0",
+    "typescript": "5.0.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

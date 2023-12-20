@@ -1,0 +1,52 @@
+import Config from 'react-native-config';
+
+export interface ThemeColors {
+  ['gray.400']: string;
+  background: string;
+  primary: string;
+  backgroundSection: string;
+  text: string;
+  border: string;
+  notification: string;
+  secondary: string;
+  ['purple.400']: string;
+  ['black.400']: string;
+  ['gray.400']: string;
+}
+
+export const AppConfig = {
+  name: 'Vital Connect',
+  slug: 'vitalconnect',
+  apiKey: Config.API_KEY,
+  supportEmail: 'support@tryvital.io',
+  termsUrl: 'https://tryvital.io/terms',
+  privacyUrl: 'https://tryvital.io/privacy',
+  enableHealthConnect: false,
+  enableHealthKit: true,
+  colors: {
+    DarkTheme: {
+      background: '#101010',
+      backgroundSection: '#2C2B27',
+      text: '#FFFFFF',
+      secondary: '#DDD9D4',
+      'purple.400': '#CBD5F7',
+      'black.400': '#1F2937',
+      'gray.400': 'rgb(84,84,84)',
+    },
+    DefaultTheme: {
+      text: '#1F2937',
+      backgroundSection: '#fff',
+      secondary: 'rgb(84,84,84)',
+      background: '#F7F5F3',
+      'purple.400': '#7487F6',
+      'black.400': '#1F2937',
+      'gray.400': 'rgb(84,84,84)',
+    },
+  },
+  fonts: {
+    regular: 'Aeonik-Regular',
+    medium: 'Aeonik-Medium',
+    bold: 'Aeonik-Bold',
+    light: 'Aeonik-Light',
+  },
+};
