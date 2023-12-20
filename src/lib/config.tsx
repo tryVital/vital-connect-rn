@@ -3,22 +3,43 @@ import Config from 'react-native-config';
 export interface ThemeColors {
   ['gray.400']: string;
   background: string;
-  primary: string;
+  primary?: string;
   backgroundSection: string;
   text: string;
-  border: string;
-  notification: string;
+  border?: string;
+  notification?: string;
   secondary: string;
   ['purple.400']: string;
   ['black.400']: string;
   ['gray.400']: string;
 }
 
-export const AppConfig = {
+interface ThemeColorMap {
+  DarkTheme: ThemeColors;
+  DefaultTheme: ThemeColors;
+}
+
+interface AppConfigProps {
+  name: string;
+  slug: string;
+  supportEmail: string;
+  environment: 'sandbox' | 'production';
+  region: 'us' | 'eu';
+  termsUrl: string;
+  privacyUrl: string;
+  enableHealthConnect: boolean;
+  enableHealthKit: boolean;
+  colors: ThemeColorMap;
+  fonts: any;
+}
+
+export const AppConfig: AppConfigProps = {
   name: 'Vital Connect',
   slug: 'vitalconnect',
   apiKey: Config.API_KEY,
   supportEmail: 'support@tryvital.io',
+  environment: 'sandbox',
+  region: 'us',
   termsUrl: 'https://tryvital.io/terms',
   privacyUrl: 'https://tryvital.io/privacy',
   enableHealthConnect: false,
