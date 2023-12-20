@@ -79,3 +79,46 @@ Change the value within this element to match the new app name:
 ```
 <string name="app_name">My New App Name</string>
 ```
+
+### White Labelling 
+
+Please configure App Config to use your brand details 
+
+```
+export const AppConfig = {
+  name: 'Vital Connect',
+  slug: 'vitalconnect',
+  apiKey: Config.API_KEY,
+  supportEmail: 'support@tryvital.io',
+  termsUrl: 'https://tryvital.io/terms',
+  privacyUrl: 'https://tryvital.io/privacy',
+  enableHealthConnect: false,
+  enableHealthKit: true,
+  colors: {
+    DarkTheme: {
+      background: '#101010',
+      backgroundSection: '#2C2B27',
+      text: '#FFFFFF',
+      secondary: '#DDD9D4',
+      'purple.400': '#CBD5F7',
+      'black.400': '#1F2937',
+      'gray.400': 'rgb(84,84,84)',
+    },
+    DefaultTheme: {
+      text: '#1F2937',
+      backgroundSection: '#fff',
+      secondary: 'rgb(84,84,84)',
+      background: '#F7F5F3',
+      'purple.400': '#7487F6',
+      'black.400': '#1F2937',
+      'gray.400': 'rgb(84,84,84)',
+    },
+  },
+  fonts: {
+    regular: 'Aeonik-Regular',
+    medium: 'Aeonik-Medium',
+    bold: 'Aeonik-Bold',
+    light: 'Aeonik-Light',
+  },
+};
+```
