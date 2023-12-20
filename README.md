@@ -122,3 +122,7 @@ export const AppConfig = {
   },
 };
 ```
+
+### .env 
+
+Please ensure you have a .env file that contains your API key. Again this is not the recommended way to make client calls but is here for demo purposes.
