@@ -57,11 +57,9 @@ const ListItem = ({
 
   const handleAppleHealthKit = async () => {
     setLoading(true);
-    console.log('CONNECTING APPLE HEALTH KIT');
-    // await VitalHealth.cleanUp()
     try {
     } catch (e) {
-      console.log('FAILED TO SET USER ID', e);
+      console.warn('FAILED TO SET USER ID', e);
     }
     try {
       await VitalHealth.configure({
@@ -81,6 +79,7 @@ const ListItem = ({
         provider: 'Apple Health Kit',
       });
     }
+    await VitalHealth.setUserId(userId);
     try {
       await VitalHealth.askForResources([
         VitalResource.Steps,

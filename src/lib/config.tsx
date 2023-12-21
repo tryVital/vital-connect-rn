@@ -36,7 +36,6 @@ interface AppConfigProps {
 export const AppConfig: AppConfigProps = {
   name: 'Vital Connect',
   slug: 'vitalconnect',
-  apiKey: Config.API_KEY,
   supportEmail: 'support@tryvital.io',
   environment: 'sandbox',
   region: 'us',

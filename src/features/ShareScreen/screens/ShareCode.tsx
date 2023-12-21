@@ -16,7 +16,7 @@ import {makeStyles} from '../../../lib/theme';
 import {Client} from '../../../lib/client';
 import {storeData} from '../../../lib/utils';
 import {VitalCore} from '@tryvital/vital-core-react-native';
-import { VitalHealth } from '@tryvital/vital-health-react-native';
+import {VitalHealth} from '@tryvital/vital-health-react-native';
 
 export const ShareCodeModal = ({navigation}: {navigation: any}) => {
   const {colors} = useTheme();
@@ -28,14 +28,21 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
 
   const exchangeCode = async () => {
     setLoading(true);
-    await VitalHealth.cleanUp()
-    await VitalCore.cleanUp()
+    await VitalHealth.cleanUp();
+    await VitalCore.cleanUp();
     try {
       setError(null);
       const resp = await Client.Exchange.exchangeCode(code);
-      await VitalCore.signIn(resp.sign_in_token);
+      await VitalCore.configure(
+        resp.api_key,
+        resp.environment,
+        resp.region,
+        true,
+      );
+      await VitalCore.setUserId(resp.user_id);
       await storeData('team', resp.team);
       await storeData('user_id', resp.user_id);
+      await storeData('api_key', resp.api_key);
       await storeData('sign_in_token', resp.sign_in_token);
       setLoading(false);
       navigation.goBack();

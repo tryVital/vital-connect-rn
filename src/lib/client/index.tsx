@@ -37,6 +37,7 @@ const fetchDataAsync = async (
     body: body ? JSON.stringify(body) : null,
   });
   if (resp.status >= 400) {
+    console.log('error', await resp.text());
     console.error('error', resp.text());
     throw new Error(await resp.text());
   }
@@ -53,11 +54,15 @@ const fetchData = async (
 ) => {
   const baseUrl = getBaseUrl(AppConfig.environment, AppConfig.region);
 
-  let allHeaders;
+  let allHeaders = {};
   if (authType === 'sign_in_token') {
     const token = await getData('sign_in_token');
     if (!token) throw new Error('Failed to get signin token');
-    allHeaders = {...headers, Authorization: `Bearer ${token}`};
+    allHeaders = {
+      ...headers,
+      Authorization: `Bearer ${token}`,
+      'x-vital-ios-sdk-version': '2.0.0',
+    };
   } else if (authType === 'api_key') {
     const apiKey = await getData('api_key');
     if (!apiKey) throw new Error('Failed to get api_key');
@@ -74,23 +79,22 @@ export const Client = {
   User: {
     getConnectedSources: async (user_id: string) => {
       return await fetchData(
-        'sign_in_token',
+        'api_key',
         'GET',
         `/user/providers/${user_id}`,
       ).then(d => d.providers);
     },
     disconnectProvider: async (user_id: string, provider_slug: string) => {
       return await fetchData(
-        'sign_in_token',
+        'api_key',
         'DELETE',
         `/user/${user_id}/${provider_slug}`,
       );
     },
   },
   Providers: {
-    // TODO: Check if works
     getSupportedProviders: async () => {
-      const data = await fetchData("sign_in_token", 'GET', '/providers');
+      const data = await fetchData('api_key', 'GET', '/providers');
       return data.sort((a: any, b: any) => {
         if (a.name < b.name) return -1;
         return 1;
@@ -100,9 +104,9 @@ export const Client = {
   Exchange: {
     exchangeCode: async (code: string) => {
       return await fetchData(
-        "none",
+        'none',
         'POST',
-        `/link/code/exchange?code=${code}&grant_type=sign_in_token`,
+        `/link/code/exchange?code=${code}&grant_type=api_key`,
         {},
         {'Content-Type': 'application/json'},
       );
@@ -117,7 +121,7 @@ export const Client = {
       provider: string,
     ) => {
       return await fetchData(
-        "sign_in_token",
+        'api_key',
         'GET',
         `/timeseries/${userId}/${data_type}?start_date=${start_date}&end_date=${end_date}&provider=${provider}`,
       );
@@ -130,17 +134,16 @@ export const Client = {
       provider: string,
     ) => {
       return await fetchData(
-        "sign_in_token",
+        'api_key',
         'GET',
         `/summary/${data_type}/${userId}?start_date=${start_date}&end_date=${end_date}&provider=${provider}`,
       );
     },
   },
   Link: {
-    // TODO: Check if works
     getLinkToken: async (user_id: string, redirect_url?: string) => {
       return await fetchData(
-        "sign_in_token",
+        'api_key',
         'POST',
         '/link/token',
         {
@@ -150,10 +153,9 @@ export const Client = {
         {'Content-Type': 'application/json'},
       );
     },
-    // TODO: Check if works
     getOauthUrl: async (provider_slug: string, link_token: string) => {
       return await fetchData(
-        "sign_in_token",
+        'api_key',
         'GET',
         `/link/provider/oauth/${provider_slug}`,
         null,

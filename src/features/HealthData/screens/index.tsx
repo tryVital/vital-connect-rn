@@ -29,6 +29,7 @@ const DataCards = ({
   userId: string | null;
   provider: string;
 }) => {
+
   if (!isLoading && error) {
     return (
       <VStack space="md">
@@ -78,6 +79,7 @@ export const HealthDataScreen = ({navigation}) => {
   useEffect(() => {
     const getUserId = async () => {
       setLoading(true);
+      setError(null);
       try {
         const user_id = await getData('user_id');
         const supportedProviders =
@@ -100,8 +102,9 @@ export const HealthDataScreen = ({navigation}) => {
           setLoading(false);
         }
       } catch (e) {
+        console.log({e})
         setLoading(false);
-        setError(JSON.stringify(e) as string);
+        setError(null);
       }
     };
     const unsubscribe = navigation.addListener('focus', async () => {
