@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -29,6 +29,7 @@ import {
   TabStackParamList,
 } from './src/lib/models/navigation';
 import {
+  VitalHealth,
   VitalHealthEvents,
   VitalHealthReactNativeModule,
 } from '@tryvital/vital-health-react-native';
@@ -117,6 +118,14 @@ function App(): React.JSX.Element {
       ...AppConfig.colors.DarkTheme,
     },
   };
+
+  useEffect(()=>{
+    try{
+      VitalHealth.syncData()
+    }catch(e){
+      console.warn("Failed to sync data")
+    }
+  },[])
 
   return (
     <GluestackUIProvider config={config}>

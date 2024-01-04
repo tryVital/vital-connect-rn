@@ -78,7 +78,7 @@ export const useTimeseriesData = (
       }
     };
     getData();
-  }, []);
+  }, [provider]);
 
   //   @ts-ignore
   return {data: allData, isLoading: loading, error};

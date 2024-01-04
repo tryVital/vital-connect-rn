@@ -31,15 +31,7 @@ import {ManualProviderSlug, VitalCore} from '@tryvital/vital-core-react-native';
 import {VitalHealth, VitalResource} from '@tryvital/vital-health-react-native';
 
 const handleOAuth = async (userId: string, item: Provider) => {
-  const linkToken = await Client.Link.getLinkToken(
-    userId,
-    `${AppConfig.slug}://link`,
-  );
-  const provider = await Client.Link.getOauthUrl(
-    item.slug,
-    linkToken.link_token,
-  );
-  Linking.openURL(provider.oauth_url);
+  Linking.openURL(item.oauth_url);
 };
 
 const ListItem = ({
@@ -55,7 +47,12 @@ const ListItem = ({
   const isDarkMode = useColorScheme() === 'dark';
   const [isLoading, setLoading] = useState(false);
 
-  const handleAppleHealthKit = async () => {
+  const handleNativeHealthKit = async () => {
+    const providerSlug =
+      Platform.OS == 'ios'
+        ? ManualProviderSlug.AppleHealthKit
+        : ManualProviderSlug.HealthConnect;
+
     setLoading(true);
     try {
     } catch (e) {
@@ -73,10 +70,10 @@ const ListItem = ({
       });
     } catch (e) {
       setLoading(false);
-      console.warn('Failed to configure Healthkit', e);
+      console.warn(`Failed to configure ${providerSlug}`, e);
       navigation.navigate('ConnectionCallback', {
         state: 'failed',
-        provider: 'Apple Health Kit',
+        provider: providerSlug,
       });
     }
     await VitalHealth.setUserId(userId);
@@ -94,20 +91,18 @@ const ListItem = ({
         VitalResource.ActiveEnergyBurned,
         VitalResource.BasalEnergyBurned,
       ]);
-      await VitalCore.createConnectedSourceIfNotExist(
-        ManualProviderSlug.AppleHealthKit,
-      );
+      await VitalCore.createConnectedSourceIfNotExist(providerSlug);
       setLoading(false);
       navigation.navigate('ConnectionCallback', {
         state: 'success',
-        provider: 'Apple Health Kit',
+        provider: providerSlug,
       });
     } catch (e) {
       setLoading(false);
       console.warn('Failed to ask for resources', e);
       navigation.navigate('ConnectionCallback', {
         state: 'failed',
-        provider: 'Apple Health Kit',
+        provider: providerSlug,
       });
     }
   };
@@ -115,9 +110,9 @@ const ListItem = ({
   const onPress = async () => {
     if (item.auth_type === 'oauth') {
       await handleOAuth(userId, item);
-    } else if (item.slug === 'apple_health_kit') {
-      await handleAppleHealthKit();
-    }
+    } else if (item.slug === 'apple_health_kit' || item.slug === 'health_connect') {
+      await handleNativeHealthKit();
+    } 
   };
 
   return (
@@ -183,7 +178,13 @@ export const LinkDeviceScreen = ({navigation}) => {
       setError(null);
       const user_id = await getData('user_id');
       if (user_id) {
-        const devices = await Client.Providers.getSupportedProviders();
+        const linkToken = await Client.Link.getLinkToken(
+          user_id,
+          `${AppConfig.slug}://link`,
+        );
+        const devices =
+          await Client.Providers.getProvidersUsingLinkToken(linkToken.link_token);
+        console.log(devices.map(d => d.name));
         setLoading(false);
         setUserId(user_id);
         setDevices(

@@ -76,14 +76,16 @@ export const HealthDataScreen = ({navigation}) => {
   const [error, setError] = React.useState<string | null>(null);
   const [providers, setProviders] = React.useState<Provider[]>([]);
   const [index, setIndex] = React.useState(0);
+  
   useEffect(() => {
     const getUserId = async () => {
       setLoading(true);
       setError(null);
       try {
         const user_id = await getData('user_id');
+        const linkToken = await Client.Link.getLinkToken(user_id)
         const supportedProviders =
-          await Client.Providers.getSupportedProviders();
+          await Client.Providers.getProvidersUsingLinkToken(linkToken.link_token);
         setProviders(
           getSDKDevicesForPlatform(
             supportedProviders,

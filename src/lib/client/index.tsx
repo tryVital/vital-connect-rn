@@ -1,3 +1,4 @@
+import {VitalCore} from '@tryvital/vital-core-react-native';
 import {AppConfig} from '../config';
 import {getData} from '../utils';
 
@@ -11,6 +12,24 @@ const vitalBaseUrlMap = {
     us: 'https://api.tryvital.io',
   },
 };
+
+const sdkProviders = [
+  {
+    name: 'Apple HealthKit',
+    slug: 'apple_health_kit',
+    auth_type: 'sdk',
+    logo: 'https://storage.googleapis.com/vital-assets/apple_health.png',
+    description:
+      'HealthKit provides a central repository for health and fitness data on iPhone and Apple Watch.',
+  },
+  {
+    name: 'Health Connect',
+    slug: 'health_connect',
+    auth_type: 'sdk',
+    logo: 'https://storage.googleapis.com/vital-assets/HealthConnect.png',
+    description: 'Google Health Connect.',
+  },
+];
 
 const getBaseUrl = (
   environment: 'sandbox' | 'production',
@@ -56,13 +75,14 @@ const fetchData = async (
 
   let allHeaders = {};
   if (authType === 'sign_in_token') {
-    const token = await getData('sign_in_token');
-    if (!token) throw new Error('Failed to get signin token');
+    const accessToken = await VitalCore.getAccessToken();
+    if (!accessToken) throw new Error('Failed to get signin token');
     allHeaders = {
       ...headers,
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
       'x-vital-ios-sdk-version': '2.0.0',
     };
+    console.log('allHeaders', allHeaders);
   } else if (authType === 'api_key') {
     const apiKey = await getData('api_key');
     if (!apiKey) throw new Error('Failed to get api_key');
@@ -79,23 +99,26 @@ export const Client = {
   User: {
     getConnectedSources: async (user_id: string) => {
       return await fetchData(
-        'api_key',
+        'sign_in_token',
         'GET',
         `/user/providers/${user_id}`,
       ).then(d => d.providers);
     },
     disconnectProvider: async (user_id: string, provider_slug: string) => {
       return await fetchData(
-        'api_key',
+        'sign_in_token',
         'DELETE',
         `/user/${user_id}/${provider_slug}`,
       );
     },
   },
   Providers: {
-    getSupportedProviders: async () => {
-      const data = await fetchData('api_key', 'GET', '/providers');
-      return data.sort((a: any, b: any) => {
+    getProvidersUsingLinkToken: async (linkToken: string) => {
+      const data = await fetchData('none', 'GET', '/link/providers', null, {
+        'x-vital-link-token': linkToken,
+      });
+      const allProviders = sdkProviders.concat(data);
+      return allProviders.sort((a: any, b: any) => {
         if (a.name < b.name) return -1;
         return 1;
       });
@@ -106,7 +129,7 @@ export const Client = {
       return await fetchData(
         'none',
         'POST',
-        `/link/code/exchange?code=${code}&grant_type=api_key`,
+        `/link/code/exchange?code=${code}&grant_type=sign_in_token`,
         {},
         {'Content-Type': 'application/json'},
       );
@@ -121,7 +144,7 @@ export const Client = {
       provider: string,
     ) => {
       return await fetchData(
-        'api_key',
+        'sign_in_token',
         'GET',
         `/timeseries/${userId}/${data_type}?start_date=${start_date}&end_date=${end_date}&provider=${provider}`,
       );
@@ -134,7 +157,7 @@ export const Client = {
       provider: string,
     ) => {
       return await fetchData(
-        'api_key',
+        'sign_in_token',
         'GET',
         `/summary/${data_type}/${userId}?start_date=${start_date}&end_date=${end_date}&provider=${provider}`,
       );
@@ -143,7 +166,7 @@ export const Client = {
   Link: {
     getLinkToken: async (user_id: string, redirect_url?: string) => {
       return await fetchData(
-        'api_key',
+        'sign_in_token',
         'POST',
         '/link/token',
         {
@@ -151,15 +174,6 @@ export const Client = {
           redirect_url: redirect_url,
         },
         {'Content-Type': 'application/json'},
-      );
-    },
-    getOauthUrl: async (provider_slug: string, link_token: string) => {
-      return await fetchData(
-        'api_key',
-        'GET',
-        `/link/provider/oauth/${provider_slug}`,
-        null,
-        {'x-vital-link-token': link_token},
       );
     },
   },

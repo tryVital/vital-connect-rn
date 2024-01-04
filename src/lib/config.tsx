@@ -41,7 +41,7 @@ export const AppConfig: AppConfigProps = {
   region: 'us',
   termsUrl: 'https://tryvital.io/terms',
   privacyUrl: 'https://tryvital.io/privacy',
-  enableHealthConnect: false,
+  enableHealthConnect: true,
   enableHealthKit: true,
   colors: {
     DarkTheme: {

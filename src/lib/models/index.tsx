@@ -4,4 +4,5 @@ export interface Provider {
   description: string;
   logo: string;
   auth_type: string;
+  oauth_url: string;
 }

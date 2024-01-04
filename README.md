@@ -92,7 +92,7 @@ export const AppConfig = {
   supportEmail: 'support@tryvital.io',
   termsUrl: 'https://tryvital.io/terms',
   privacyUrl: 'https://tryvital.io/privacy',
-  enableHealthConnect: false,
+  enableHealthConnect: true,
   enableHealthKit: true,
   colors: {
     DarkTheme: {

@@ -28,6 +28,7 @@ export const HeartRateData = ({
     provider,
   );
 
+
   if ((isLoading || isLoadingUser) && !error)
     return (
       <CardLoader bgColor={colors.backgroundSection} isDarkMode={isDarkMode} />
