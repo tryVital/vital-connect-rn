@@ -100,7 +100,7 @@ const TeamItem = ({
           alignItems="center"
           space="lg"
           overflow="hidden">
-          <Image source={team.logo_url} alt={'logo_url'} />
+          {team.logo_url && <Image source={team.logo_url} alt={'logo_url'} />}
           <VStack space="xs" flexShrink={1}>
             <H2>{team.name}</H2>
             <HStack alignItems="center">

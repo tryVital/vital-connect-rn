@@ -54,6 +54,17 @@ const ListItem = ({
         : ManualProviderSlug.HealthConnect;
 
     setLoading(true);
+
+    const isHealthSDKAvailable = await VitalHealth.isAvailable();
+    if (!isHealthSDKAvailable) {
+      console.warn('Health Connect is not available on this device.');
+      navigation.navigate('ConnectionCallback', {
+        state: 'failed',
+        provider: providerSlug,
+      });
+      return;
+    }
+
     try {
     } catch (e) {
       console.warn('FAILED TO SET USER ID', e);
