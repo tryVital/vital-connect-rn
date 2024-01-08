@@ -3403,15 +3403,15 @@
   resolved "https://registry.yarnpkg.com/@tryvital/vital-core-react-native/-/vital-core-react-native-1.13.1.tgz#14a1ec9fc9ffc459eeda4941e6d3d1252b8c0313"
   integrity sha512-LbQMCu4zX/JYgstgT+KjJU7tiYmswxDUIxyp9ZnEN096OBYRj1H8c1yDOEmJeoFk+7vfK4ktrgfxXr0expGseQ==
 
-"@tryvital/vital-core-react-native@^2.0.0":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@tryvital/vital-core-react-native/-/vital-core-react-native-2.0.2.tgz#8f3816c219c6457ee0a005bc9e313266678db642"
-  integrity sha512-87N6CgsCJCmndanvilYObMG1hzny4bmgWx3GscBMLwwWqxcJz/t8bbJNADqOBUvIYm66O/SMup5M8j4q5qCiBA==
+"@tryvital/vital-core-react-native@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tryvital/vital-core-react-native/-/vital-core-react-native-3.0.1.tgz#be0111d0caa16a3e2ec94cb08ea3efbd053af248"
+  integrity sha512-5fUK9wQ4kQjF3Jjnl3xaL4HVP+KknrFtCaF31/0/HKcpUPuzbqZciwqMzh2b0WmP3Dz7nIHJSDGA5P2b0yhBxQ==
 
-"@tryvital/vital-health-react-native@^2.0.0":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@tryvital/vital-health-react-native/-/vital-health-react-native-2.0.2.tgz#6e6efd1eea873c010295a1d3c2e58c9c81a784a3"
-  integrity sha512-J2Dwu/9THyOEk81gGkVLQH6FbVW6D3UuNZ515KOgrmN9Mric2WtzHQNc/EgY6voZROR3lKpt9QcwrzqDrqazHw==
+"@tryvital/vital-health-react-native@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tryvital/vital-health-react-native/-/vital-health-react-native-3.0.1.tgz#7e637cb1074021317c1dc185dcecd888fcb45e61"
+  integrity sha512-41xVQFcVO4SMM1sNPnsHkSxsgEUJUaEyqLNbJQiPCp0H/cz4F5vymDDJA/J2tIezU9GQx0eBx5hiacqnMJkiqg==
   dependencies:
     "@tryvital/vital-core-react-native" "^1.3.0"
 

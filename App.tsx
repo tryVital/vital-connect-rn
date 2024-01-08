@@ -45,7 +45,7 @@ const TabNav = () => {
   healthEventEmitter.addListener(
     VitalHealthEvents.statusEvent,
     (event: any) => {
-      console.log('[Apple Health]', VitalHealthEvents.statusEvent, event);
+      console.log('[Health SDK]', VitalHealthEvents.statusEvent, event);
     },
   );
   return (
