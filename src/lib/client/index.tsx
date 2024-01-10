@@ -65,7 +65,7 @@ const fetchDataAsync = async (
 };
 
 const fetchData = async (
-  authType: 'sign_in_token' | 'api_key' | 'none',
+  authType: 'sign_in_token' | 'none',
   method: 'GET' | 'POST' | 'DELETE',
   resource: string,
   body: Record<string, any> | null = null,
@@ -82,11 +82,6 @@ const fetchData = async (
       Authorization: `Bearer ${accessToken}`,
       'x-vital-ios-sdk-version': '2.0.0',
     };
-    console.log('allHeaders', allHeaders);
-  } else if (authType === 'api_key') {
-    const apiKey = await getData('api_key');
-    if (!apiKey) throw new Error('Failed to get api_key');
-    allHeaders = {...headers, 'x-vital-api-key': apiKey};
   } else {
     allHeaders = {...headers};
   }
@@ -119,6 +114,22 @@ export const Client = {
       });
       const allProviders = sdkProviders.concat(data);
       return allProviders.sort((a: any, b: any) => {
+        if (a.name < b.name) return -1;
+        return 1;
+      });
+    },
+    getOauthUrl: async (provider_slug: string, link_token: string) => {
+      return await fetchData(
+        'sign_in_token',
+        'GET',
+        `/link/provider/oauth/${provider_slug}`,
+        null,
+        {'x-vital-link-token': link_token},
+      );
+    },
+    getProviders: async () => {
+      const data = await fetchData('sign_in_token', 'GET', '/providers', null);
+      return data.sort((a: any, b: any) => {
         if (a.name < b.name) return -1;
         return 1;
       });

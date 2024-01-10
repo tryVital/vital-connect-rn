@@ -37,7 +37,6 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
       await VitalCore.setUserId(resp.user_id);
       await storeData('team', resp.team);
       await storeData('user_id', resp.user_id);
-      await storeData('api_key', resp.api_key);
       await storeData('sign_in_token', resp.sign_in_token);
       setLoading(false);
       navigation.goBack();

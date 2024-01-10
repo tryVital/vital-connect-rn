@@ -31,7 +31,13 @@ import {ManualProviderSlug, VitalCore} from '@tryvital/vital-core-react-native';
 import {VitalHealth, VitalResource} from '@tryvital/vital-health-react-native';
 
 const handleOAuth = async (userId: string, item: Provider) => {
-  Linking.openURL(item.oauth_url);
+  const linkToken = await Client.Link.getLinkToken(
+    userId,
+    `${AppConfig.slug}://link`,
+  );
+  const link = await Client.Providers.getOauthUrl(item.slug, linkToken.link_token);
+
+  Linking.openURL(link.oauth_url);
 };
 
 const ListItem = ({
@@ -121,9 +127,12 @@ const ListItem = ({
   const onPress = async () => {
     if (item.auth_type === 'oauth') {
       await handleOAuth(userId, item);
-    } else if (item.slug === 'apple_health_kit' || item.slug === 'health_connect') {
+    } else if (
+      item.slug === 'apple_health_kit' ||
+      item.slug === 'health_connect'
+    ) {
       await handleNativeHealthKit();
-    } 
+    }
   };
 
   return (
@@ -189,13 +198,7 @@ export const LinkDeviceScreen = ({navigation}) => {
       setError(null);
       const user_id = await getData('user_id');
       if (user_id) {
-        const linkToken = await Client.Link.getLinkToken(
-          user_id,
-          `${AppConfig.slug}://link`,
-        );
-        const devices =
-          await Client.Providers.getProvidersUsingLinkToken(linkToken.link_token);
-        console.log(devices.map(d => d.name));
+        const devices = await Client.Providers.getProviders();
         setLoading(false);
         setUserId(user_id);
         setDevices(

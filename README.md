@@ -88,7 +88,6 @@ Please configure App Config to use your brand details
 export const AppConfig = {
   name: 'Vital Connect',
   slug: 'vitalconnect',
-  apiKey: Config.API_KEY,
   supportEmail: 'support@tryvital.io',
   termsUrl: 'https://tryvital.io/terms',
   privacyUrl: 'https://tryvital.io/privacy',
