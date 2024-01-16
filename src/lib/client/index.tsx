@@ -46,6 +46,7 @@ const fetchDataAsync = async (
   body: Record<string, any> | null = null,
   headers: Record<string, string> | null = {},
 ) => {
+  console.log("fetching", baseUrl)
   const resp = await fetch(`${baseUrl}/v2${resource}`, {
     method: method,
     headers: {
@@ -56,9 +57,9 @@ const fetchDataAsync = async (
     body: body ? JSON.stringify(body) : null,
   });
   if (resp.status >= 400) {
-    console.log('error', await resp.text());
-    console.error('error', resp.text());
-    throw new Error(await resp.text());
+    const text = await resp.text();
+    console.error('error', text);
+    throw new Error(text);
   }
   const data = await resp.json();
   return data;

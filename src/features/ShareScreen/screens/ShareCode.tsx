@@ -6,6 +6,8 @@ import {
   Button,
   ButtonText,
   Spinner,
+  ModalCloseButton,
+  HStack,
 } from '@gluestack-ui/themed';
 import React from 'react';
 import {SafeAreaView, useColorScheme} from 'react-native';
@@ -17,6 +19,7 @@ import {Client} from '../../../lib/client';
 import {storeData} from '../../../lib/utils';
 import {VitalCore} from '@tryvital/vital-core-react-native';
 import {VitalHealth} from '@tryvital/vital-health-react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export const ShareCodeModal = ({navigation}: {navigation: any}) => {
   const {colors} = useTheme();
@@ -51,15 +54,25 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <VStack space="sm" pt="$10" mx="$5" alignItems="center">
+      <HStack width={'100%'} justifyContent="flex-end" px={16} pt={16}>
+        <Button
+          size="md"
+          variant={'link'}
+          action="primary"
+          onPress={() => navigation.goBack()}
+          isDisabled={false}
+          isFocusVisible={false}>
+          <Ionicons name="close" size={25} color={colors.text} />
+        </Button>
+      </HStack>
+      <VStack space="sm" pt="$5" mx="$5" alignItems="center">
         <H1 textAlign="center">Share your health records</H1>
         <Text
           size="xs"
           textAlign="center"
           color={colors.secondary}
           fontType="regular">
-          You're health and fitness provides should have given you a code, in
-          order to share data with them.
+          {AppConfig.shareText}
         </Text>
 
         <VStack space="3xl" alignItems="center" width={'100%'} pt={'$10'}>
@@ -82,11 +95,7 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
               fontFamily={AppConfig.fonts.regular}
             />
           </Input>
-          {error && (
-            <Text color={'red'} fontType="light">
-              {error}
-            </Text>
-          )}
+
           <Button
             width={'100%'}
             size="md"
@@ -94,7 +103,7 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
             action="primary"
             onPress={exchangeCode}
             bg={isDarkMode ? colors.backgroundSection : '$black'}
-            isDisabled={false}
+            isDisabled={code.length < 6}
             isFocusVisible={false}>
             {loading ? (
               <Spinner color="$white" />
@@ -102,6 +111,11 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
               <ButtonText>Share Data</ButtonText>
             )}
           </Button>
+          {error && (
+            <Text color={'red'} fontType="light" width={"100%"} textAlign='center'>
+              {error}
+            </Text>
+          )}
         </VStack>
       </VStack>
     </SafeAreaView>

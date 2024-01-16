@@ -31,6 +31,7 @@ interface AppConfigProps {
   enableHealthKit: boolean;
   colors: ThemeColorMap;
   fonts: any;
+  shareText: string;
 }
 
 export const AppConfig: AppConfigProps = {
@@ -43,6 +44,8 @@ export const AppConfig: AppConfigProps = {
   privacyUrl: 'https://tryvital.io/privacy',
   enableHealthConnect: true,
   enableHealthKit: true,
+  shareText:
+    'To start sharing you will need a share code. You partners should be able to provide this for you.',
   colors: {
     DarkTheme: {
       background: '#101010',

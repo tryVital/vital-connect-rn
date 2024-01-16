@@ -80,6 +80,10 @@ Change the value within this element to match the new app name:
 <string name="app_name">My New App Name</string>
 ```
 
+### Extra Dependencies
+We utilize the following dependencies in this example which require extra steps for installation:
+- https://github.com/oblador/react-native-vector-icons
+
 ### White Labelling 
 
 Please configure App Config to use your brand details 

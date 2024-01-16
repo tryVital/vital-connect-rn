@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -119,13 +119,13 @@ function App(): React.JSX.Element {
     },
   };
 
-  useEffect(()=>{
-    try{
-      VitalHealth.syncData()
-    }catch(e){
-      console.warn("Failed to sync data")
+  useEffect(() => {
+    try {
+      VitalHealth.syncData();
+    } catch (e) {
+      console.warn('Failed to sync data');
     }
-  },[])
+  }, []);
 
   return (
     <GluestackUIProvider config={config}>

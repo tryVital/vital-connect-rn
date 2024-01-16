@@ -29,7 +29,6 @@ const DataCards = ({
   userId: string | null;
   provider: string;
 }) => {
-
   if (!isLoading && error) {
     return (
       <VStack space="md">
@@ -76,16 +75,18 @@ export const HealthDataScreen = ({navigation}) => {
   const [error, setError] = React.useState<string | null>(null);
   const [providers, setProviders] = React.useState<Provider[]>([]);
   const [index, setIndex] = React.useState(0);
-  
+
   useEffect(() => {
     const getUserId = async () => {
       setLoading(true);
       setError(null);
       try {
         const user_id = await getData('user_id');
-        const linkToken = await Client.Link.getLinkToken(user_id)
+        const linkToken = await Client.Link.getLinkToken(user_id);
         const supportedProviders =
-          await Client.Providers.getProvidersUsingLinkToken(linkToken.link_token);
+          await Client.Providers.getProvidersUsingLinkToken(
+            linkToken.link_token,
+          );
         setProviders(
           getSDKDevicesForPlatform(
             supportedProviders,
@@ -104,7 +105,7 @@ export const HealthDataScreen = ({navigation}) => {
           setLoading(false);
         }
       } catch (e) {
-        console.log({e})
+        console.log({e});
         setLoading(false);
         setError(null);
       }
@@ -126,49 +127,52 @@ export const HealthDataScreen = ({navigation}) => {
       <VStack pt="$12" mx="$5">
         <H1>Latest measurements</H1>
 
-        <SelectDropdown
-          renderDropdownIcon={() => (
-            <EntypoIcon
-              name="chevron-down"
-              size={14}
-              color={colors['black.400']}
-            />
-          )}
-          defaultButtonText="Select a provider"
-          buttonTextStyle={{
-            color: colors['black.400'],
-            textAlign: 'left',
-            fontSize: 14,
-            fontFamily: 'Aeonik-Regular',
-            paddingHorizontal: 0,
-            marginHorizontal: 0,
-          }}
-          buttonStyle={{
-            alignContent: 'flex-start',
-            paddingHorizontal: 0,
-            marginHorizontal: 0,
-            height: 30,
-            backgroundColor: 'transparent',
-            width: '100%',
-            justifyContent: 'flex-start',
-          }}
-          dropdownStyle={{borderRadius: 8}}
-          rowTextStyle={{textAlign: 'left'}}
-          data={providers.map(p => p.name)}
-          onSelect={(selectedItem, index) => {
-            setIndex(index);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            // text represented after item is selected
-            // if data array is an array of objects then return selectedItem.property to render after item is selected
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            // text represented for each item in dropdown
-            // if data array is an array of objects then return item.property to represent item in dropdown
-            return item;
-          }}
-        />
+        {providers.length > 0 ? (
+          <SelectDropdown
+            renderDropdownIcon={() => (
+              <EntypoIcon
+                name="chevron-down"
+                size={14}
+                color={colors['black.400']}
+              />
+            )}
+            defaultButtonText="Select a provider"
+            buttonTextStyle={{
+              color: colors['black.400'],
+              textAlign: 'left',
+              fontSize: 14,
+              fontFamily: 'Aeonik-Regular',
+              paddingHorizontal: 0,
+              marginHorizontal: 0,
+            }}
+            buttonStyle={{
+              alignContent: 'flex-start',
+              paddingHorizontal: 0,
+              marginHorizontal: 0,
+              height: 30,
+              backgroundColor: 'transparent',
+              width: '100%',
+              justifyContent: 'flex-start',
+            }}
+            dropdownStyle={{borderRadius: 8}}
+            rowTextStyle={{textAlign: 'left'}}
+            data={providers.map(p => p.name)}
+            onSelect={(selectedItem, index) => {
+              setIndex(index);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              // text represented after item is selected
+              // if data array is an array of objects then return selectedItem.property to render after item is selected
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              // text represented for each item in dropdown
+              // if data array is an array of objects then return item.property to represent item in dropdown
+              return item;
+            }}
+          />
+        ) : null
+        }
       </VStack>
       <ScrollView mx={'$5'} paddingTop={16}>
         <DataCards

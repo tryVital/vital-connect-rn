@@ -28,11 +28,9 @@ import {
   ModalBackdrop,
   ModalContent,
   ModalHeader,
-  Heading,
   ModalCloseButton,
   ModalBody,
   Pressable,
-  ModalFooter,
 } from '@gluestack-ui/themed';
 import {H1, Text} from '../../../components/Text';
 import {useTheme} from '@react-navigation/native';
@@ -179,7 +177,7 @@ const AddDeviceButton = ({
       if (supported) {
         Linking.openURL(url);
       } else {
-        console.log("Don't know how to open URI: " + this.props.url);
+        console.log("Don't know how to open URI: " + url);
       }
     });
   };
@@ -327,14 +325,17 @@ export const ConnectedDevicesScreen = ({navigation}) => {
         backgroundColor={styles.container.backgroundColor}
       />
 
-      <VStack pt="$5" mx="$5">
+      <VStack height="$12" pt={'$5'} mx="$5">
         <AddDeviceButton
           isDisabled={!loading && userId ? false : true}
           colors={colors}
           navigation={navigation}
         />
+      </VStack>
+      <VStack mx="$5">
         <H1>My Devices</H1>
       </VStack>
+
       <ScrollView sx={{flex: 1, mx: '$5'}}>
         <View style={{flex: 1, paddingTop: 16}}>
           <DeviceList
