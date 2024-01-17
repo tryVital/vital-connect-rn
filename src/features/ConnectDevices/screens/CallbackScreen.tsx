@@ -48,9 +48,10 @@ export const CallbackScreen = ({route, navigation}) => {
                 color={colors.text}
                 fontType="medium"
                 fontSize={24}
+                textTransform="capitalize"
                 textAlign="center">
-                {route?.params?.provider.replace('#_=_', '')} connected
-                Successfully
+                {route?.params?.provider.replaceAll("_", " ",)} connected
+                successfully
               </Text>
             ) : (
               <Text

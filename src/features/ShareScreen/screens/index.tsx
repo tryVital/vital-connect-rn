@@ -24,6 +24,7 @@ import {getData, clearAll} from '../../../lib/utils';
 import {VitalCore} from '@tryvital/vital-core-react-native';
 import {VitalHealth} from '@tryvital/vital-health-react-native';
 import {ConnectDevicesCard} from '../../../components/Card/ShareDataCard';
+import {Client} from '../../../lib/client';
 
 const NotSharing = ({
   navigation,
@@ -87,9 +88,9 @@ const TeamItem = ({
   };
   return (
     <VStack space="3xl" pt="$10" mx="$5">
-      <VStack justifyContent="center" space="md" alignItems="center">
-        <VStack justifyContent="center" space="xs" alignItems="center">
-          <H1 textAlign="center">You're sharing your data with</H1>
+      <VStack justifyContent="center" space="md" alignItems="flex-start">
+        <VStack justifyContent="center" space="xs" alignItems="flex-start">
+          <H1 textAlign="left">Sharing Data With</H1>
         </VStack>
       </VStack>
       <Pressable
@@ -154,17 +155,29 @@ export const ShareScreen = ({navigation}: ShareStackScreenProps) => {
   const styles = makeStyles(colors);
   const [loading, setLoading] = React.useState(false);
   const [team, setTeam] = React.useState(null);
+  const [hasConnectedDevices, setHasConnectedDevices] = React.useState(false);
 
   useEffect(() => {
     const getDevices = async () => {
       setLoading(true);
       try {
         const team = await getData('team');
-        setTeam(team);
-        setLoading(false);
+        const userId = await getData('user_id');
+        if (team && userId) {
+          const devices = await Client.User.getConnectedSources(userId);
+          if (devices.length > 0) {
+            setHasConnectedDevices(true);
+          }
+          setTeam(team);
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
       } catch (e) {
         console.warn(e);
         setLoading(false);
+        setTeam(null);
+        setHasConnectedDevices(false);
       }
     };
 
@@ -190,11 +203,14 @@ export const ShareScreen = ({navigation}: ShareStackScreenProps) => {
             colors={colors}
             onDisconnect={handleDisconnect}
           />
-          <VStack mx="$5">
-            <ConnectDevicesCard
-              onClick={() => navigation.navigate('Connect')}
-            />
-          </VStack>
+          {!hasConnectedDevices && (
+            <VStack mx={'$5'} space="md">
+              <H1>My Devices</H1>
+              <ConnectDevicesCard
+                onClick={() => navigation.navigate('Connect')}
+              />
+            </VStack>
+          )}
         </VStack>
       ) : (
         <NotSharing navigation={navigation} colors={colors} />
