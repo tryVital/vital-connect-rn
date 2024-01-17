@@ -81,9 +81,9 @@ const TeamItem = ({
   const handleClose = () => setShowActionsheet(!showActionsheet);
   const handleStopSharing = async () => {
     await VitalHealth.cleanUp();
-    await VitalCore.cleanUp();
-    await clearAll();
-    onDisconnect();
+    // await VitalCore.cleanUp();
+    // await clearAll();
+    // onDisconnect();
     handleClose();
   };
   return (

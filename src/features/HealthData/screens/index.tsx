@@ -25,12 +25,14 @@ const DataCards = ({
   error,
   userId,
   provider,
+  hasConnectedDevices,
 }: {
   navigation: any;
   isLoading: boolean;
   error: string | null;
   userId: string | null;
   provider: string;
+  hasConnectedDevices: boolean;
 }) => {
   if (!isLoading && error) {
     return (
@@ -41,7 +43,10 @@ const DataCards = ({
       </VStack>
     );
   }
-  return !error && userId && provider ? (
+  if (error || !userId || !provider) {
+    return <ShareDataCard navigation={navigation} />;
+  }
+  return hasConnectedDevices ? (
     <VStack space="md">
       <DailyStepsCard
         userId={userId}
@@ -65,7 +70,7 @@ const DataCards = ({
       />
     </VStack>
   ) : (
-    <ShareDataCard navigation={navigation} />
+    <ConnectDevicesCard onClick={() => navigation.navigate('Connect')} />
   );
 };
 
@@ -73,11 +78,11 @@ const ProvidersDropdown = ({providers, setIndex, index, colors}) =>
   providers.length > 0 ? (
     <SelectDropdown
       renderDropdownIcon={() => (
-        <EntypoIcon name="chevron-down" size={14} color={colors['black.400']} />
+        <EntypoIcon name="chevron-down" size={14} color={colors.secondary} />
       )}
-      defaultButtonText="Select a provider"
+      defaultButtonText="Select a device"
       buttonTextStyle={{
-        color: colors['black.400'],
+        color: colors.secondary,
         textAlign: 'left',
         fontSize: 14,
         fontFamily: 'Aeonik-Regular',
@@ -135,7 +140,7 @@ export const HealthDataScreen = ({navigation}) => {
           setLoading(false);
           setError(null);
           setUserId(null);
-          setHasConnectedDevices(false)
+          setHasConnectedDevices(false);
           return;
         }
         const supportedProviders = await Client.Providers.getProviders();
@@ -154,11 +159,11 @@ export const HealthDataScreen = ({navigation}) => {
         setUserId(userId);
         setLoading(false);
       } catch (e) {
-        console.log({e});
+        console.warn(e)
         setLoading(false);
         setError(null);
         setProviders([]);
-        setHasConnectedDevices(false)
+        setHasConnectedDevices(false);
       }
     };
 
@@ -178,25 +183,24 @@ export const HealthDataScreen = ({navigation}) => {
       />
       <VStack pt="$12" mx="$5">
         <H1>Latest measurements</H1>
-        {hasConnectedDevices ? <ProvidersDropdown
-          providers={providers}
-          setIndex={setIndex}
-          index={index}
-          colors={colors}
-        /> : null}
+        {hasConnectedDevices ? (
+          <ProvidersDropdown
+            providers={providers}
+            setIndex={setIndex}
+            index={index}
+            colors={colors}
+          />
+        ) : null}
       </VStack>
       <ScrollView mx={'$5'} paddingTop={16}>
-        {hasConnectedDevices ? (
-          <DataCards
-            provider={providers.length > 0 ? providers[index]?.slug : ''}
-            isLoading={isLoading}
-            error={error}
-            userId={userId}
-            navigation={navigation}
-          />
-        ) : (
-          <ConnectDevicesCard onClick={() => navigation.navigate('Connect')} />
-        )}
+        <DataCards
+          provider={providers.length > 0 ? providers[index]?.slug : ''}
+          isLoading={isLoading}
+          error={error}
+          userId={userId}
+          navigation={navigation}
+          hasConnectedDevices={hasConnectedDevices}
+        />
       </ScrollView>
     </SafeAreaView>
   );

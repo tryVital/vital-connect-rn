@@ -70,11 +70,6 @@ const ListItem = ({
       });
       return;
     }
-
-    try {
-    } catch (e) {
-      console.warn('FAILED TO SET USER ID', e);
-    }
     try {
       await VitalHealth.configure({
         logsEnabled: true,

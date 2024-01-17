@@ -38,7 +38,7 @@ export const AppConfig: AppConfigProps = {
   name: 'Vital Connect',
   slug: 'vitalconnect',
   supportEmail: 'support@tryvital.io',
-  environment: 'sandbox',
+  environment: 'production',
   region: 'us',
   termsUrl: 'https://tryvital.io/terms',
   privacyUrl: 'https://tryvital.io/privacy',

@@ -57,9 +57,6 @@ const ListItem = ({
   const handleClose = () => setShowActionsheet(!showActionsheet);
   const {colors} = useTheme();
   const disconnectProvider = async (user_id: string) => {
-    if (item.slug == 'apple_health_kit') {
-      await VitalHealth.cleanUp();
-    }
     await Client.User.disconnectProvider(user_id, item.slug);
     await onDisconnect();
     handleClose();
@@ -93,19 +90,22 @@ const ListItem = ({
             </Text>
           </VStack>
         </HStack>
-        <Button
-          size="md"
-          variant={'link'}
-          action="primary"
-          onPress={() => setShowActionsheet(!showActionsheet)}
-          isDisabled={false}
-          isFocusVisible={false}>
-          <EntypoIcon
-            name="dots-three-horizontal"
-            size={15}
-            color={colors.text}
-          />
-        </Button>
+        {item.slug === 'apple_health_kit' ||
+        item.slug === 'health_connect' ? null : (
+          <Button
+            size="md"
+            variant={'link'}
+            action="primary"
+            onPress={() => setShowActionsheet(!showActionsheet)}
+            isDisabled={false}
+            isFocusVisible={false}>
+            <EntypoIcon
+              name="dots-three-horizontal"
+              size={15}
+              color={colors.text}
+            />
+          </Button>
+        )}
       </HStack>
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} zIndex={999}>
         <ActionsheetBackdrop />

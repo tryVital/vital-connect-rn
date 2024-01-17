@@ -58,8 +58,9 @@ export const CallbackScreen = ({route, navigation}) => {
                 color={colors.text}
                 fontType="medium"
                 fontSize={24}
+                textTransform="capitalize"
                 textAlign="center">
-                {route?.params?.provider} failed to connect
+                {route?.params?.provider.replaceAll("_", " ",)} failed to connect
               </Text>
             )}
                         </VStack>
