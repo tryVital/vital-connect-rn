@@ -76,12 +76,10 @@ const fetchData = async (
 
   let allHeaders = {};
   if (authType === 'sign_in_token') {
-    const accessToken = await VitalCore.getAccessToken();
-    if (!accessToken) throw new Error('Failed to get signin token');
+    const sdkHeaders = await VitalCore.getVitalAPIHeaders();
     allHeaders = {
       ...headers,
-      Authorization: `Bearer ${accessToken}`,
-      'x-vital-ios-sdk-version': '2.0.0',
+      ...sdkHeaders,
     };
   } else {
     allHeaders = {...headers};
