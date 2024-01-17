@@ -36,7 +36,10 @@ import {H1, Text} from '../../../components/Text';
 import {useTheme} from '@react-navigation/native';
 import {makeStyles} from '../../../lib/theme';
 import {getData} from '../../../lib/utils';
-import {ShareDataCard} from '../../../components/Card/ShareDataCard';
+import {
+  ConnectDevicesCard,
+  ShareDataCard,
+} from '../../../components/Card/ShareDataCard';
 import {DeviceCardLoader} from '../../../components/Card/LoaderCard';
 import {VitalHealth} from '@tryvital/vital-health-react-native';
 import {AppConfig} from '../../../lib/config';
@@ -155,9 +158,7 @@ const DeviceList = ({
       />
     ))
   ) : (
-    <VStack alignItems="center" justifyContent="center" pt={'$10'}>
-      <Text fontType="light"> No devices currently connected</Text>
-    </VStack>
+    <ConnectDevicesCard onClick={() => navigation.navigate('Connect')} />
   );
 };
 

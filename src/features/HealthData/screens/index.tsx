@@ -108,6 +108,7 @@ export const HealthDataScreen = ({navigation}) => {
         console.log({e});
         setLoading(false);
         setError(null);
+        setProviders([])
       }
     };
     const unsubscribe = navigation.addListener('focus', async () => {

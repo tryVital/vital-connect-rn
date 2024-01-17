@@ -23,6 +23,7 @@ import {ShareStackScreenProps} from '../../../lib/models/navigation';
 import {getData, clearAll} from '../../../lib/utils';
 import {VitalCore} from '@tryvital/vital-core-react-native';
 import {VitalHealth} from '@tryvital/vital-health-react-native';
+import {ConnectDevicesCard} from '../../../components/Card/ShareDataCard';
 
 const NotSharing = ({
   navigation,
@@ -183,7 +184,18 @@ export const ShareScreen = ({navigation}: ShareStackScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       {team ? (
-        <TeamItem team={team} colors={colors} onDisconnect={handleDisconnect} />
+        <VStack space="md">
+          <TeamItem
+            team={team}
+            colors={colors}
+            onDisconnect={handleDisconnect}
+          />
+          <VStack mx="$5">
+            <ConnectDevicesCard
+              onClick={() => navigation.navigate('Connect')}
+            />
+          </VStack>
+        </VStack>
       ) : (
         <NotSharing navigation={navigation} colors={colors} />
       )}

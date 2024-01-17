@@ -26,3 +26,30 @@ export const ShareDataCard = ({navigation}: {navigation: any}) => {
     </VStack>
   );
 };
+
+
+
+export const ConnectDevicesCard = ({onClick}: {onClick: any}) => {
+  const {colors} = useTheme();
+  return (
+    <VStack
+      space="2xl"
+      py={'$5'}
+      px={'$4'}
+      justifyContent="center"
+      alignItems="center"
+      bg={colors?.backgroundSection}
+      borderRadius={8}>
+      <Text fontType={'light'} textAlign="center" color={colors?.text}>
+        You haven't connected any devices yet.
+      </Text>
+      <Button
+        onPress={onClick}
+        backgroundColor="#5667C5"
+        width={'100%'}
+        borderRadius={12}>
+        <ButtonText fontSize={'$sm'}>Connect Device</ButtonText>
+      </Button>
+    </VStack>
+  );
+};
