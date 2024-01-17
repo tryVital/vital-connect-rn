@@ -127,7 +127,6 @@ export const HealthDataScreen = ({navigation}) => {
 
   useEffect(() => {
     const getUserId = async () => {
-      console.log("RUNNING MOFO")
       setLoading(true);
       setError(null);
       try {

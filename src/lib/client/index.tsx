@@ -46,7 +46,6 @@ const fetchDataAsync = async (
   body: Record<string, any> | null = null,
   headers: Record<string, string> | null = {},
 ) => {
-  console.log("fetching", baseUrl)
   const resp = await fetch(`${baseUrl}/v2${resource}`, {
     method: method,
     headers: {
