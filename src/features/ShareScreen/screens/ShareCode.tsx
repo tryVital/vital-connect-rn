@@ -66,7 +66,7 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
         </Button>
       </HStack>
       <VStack space="sm" pt="$5" mx="$5" alignItems="center">
-        <H1 textAlign="center">Share your health records</H1>
+        <H1 textAlign="center">Share your health data</H1>
         <Text
           size="xs"
           textAlign="center"

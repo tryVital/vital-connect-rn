@@ -60,7 +60,7 @@ const NotSharing = ({
           <VStack space="xs" flexShrink={1}>
             <H2>App or Company</H2>
             <Text fontType="light" size="xs" color={colors.secondary}>
-              Securely share your health records with one of our trusted
+              Securely share your health data with one of our trusted
               partners
             </Text>
           </VStack>
