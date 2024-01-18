@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react';
 import {Client} from '../lib/client';
 import React from 'react';
 import {getData} from '../lib/utils';
+import {useQuery} from '@tanstack/react-query';
+import {useFocusEffect} from '@react-navigation/native';
 
 export const useSummaryData = (
   userId: string,
@@ -10,35 +12,19 @@ export const useSummaryData = (
   endDate: string,
   provider: string,
 ) => {
-  const [allData, setData] = useState<Array<any>>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await Client.Data.getSummary(
-          userId,
-          summary,
-          startDate,
-          endDate,
-          provider,
-        );
-        setData(data);
-        setLoading(false);
-      } catch (e) {
-        console.warn(e);
-        setError('Failed to get data');
-        setLoading(false);
-      }
-    };
-    getData();
-  }, [userId, provider]);
-
-  //   @ts-ignore
-  return {data: allData[summary], isLoading: loading, error};
+  const {isLoading, isError, data, error} = useQuery({
+    queryKey: ['summaryData', userId, summary, startDate, endDate, provider],
+    queryFn: async () => {
+      return await Client.Data.getSummary(
+        userId,
+        summary,
+        startDate,
+        endDate,
+        provider,
+      );
+    },
+  });
+  return {data: data ? data[summary] : undefined, isLoading, isError, error};
 };
 
 interface TimeseriesData {
@@ -54,34 +40,27 @@ export const useTimeseriesData = (
   endDate: string,
   provider: string,
 ) => {
-  const [allData, setData] = useState<TimeseriesData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const {isLoading, isError, data, error} = useQuery({
+    queryKey: [
+      'timeseriesData',
+      userId,
+      timeseriesData,
+      startDate,
+      endDate,
+      provider,
+    ],
+    queryFn: async () => {
+      return await Client.Data.getTimeseries(
+        userId,
+        timeseriesData,
+        startDate,
+        endDate,
+        provider,
+      );
+    },
+  });
 
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const data: TimeseriesData[] = await Client.Data.getTimeseries(
-          userId,
-          timeseriesData,
-          startDate,
-          endDate,
-          provider,
-        );
-        setData(data);
-        setLoading(false);
-      } catch (e) {
-        console.warn(e);
-        setError('Failed to get data');
-        setLoading(false);
-      }
-    };
-    getData();
-  }, [provider]);
-
-  //   @ts-ignore
-  return {data: allData, isLoading: loading, error};
+  return {data, isLoading, isError, error};
 };
 
 export const getUserIdFromSession = navigation => {

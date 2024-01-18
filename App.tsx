@@ -33,9 +33,16 @@ import {
   VitalHealthEvents,
   VitalHealthReactNativeModule,
 } from '@tryvital/vital-health-react-native';
+import {
+  QueryClient,
+  QueryClientProvider,
+  onlineManager,
+} from '@tanstack/react-query';
+import NetInfo from '@react-native-community/netinfo';
 
 const Tab = createBottomTabNavigator<TabStackParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
+const queryClient = new QueryClient();
 
 const TabNav = () => {
   const {colors} = useTheme();
@@ -48,6 +55,11 @@ const TabNav = () => {
       console.log('[Health SDK]', VitalHealthEvents.statusEvent, event);
     },
   );
+  onlineManager.setEventListener(setOnline => {
+    return NetInfo.addEventListener(state => {
+      setOnline(!!state.isConnected);
+    });
+  });
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -132,17 +144,19 @@ function App(): React.JSX.Element {
       <NavigationContainer
         linking={linking}
         theme={theme === 'dark' ? DarkThemeCustom : DefaultThemeCustom}>
-        <Stack.Navigator
-          screenOptions={{headerShown: false, presentation: 'modal'}}>
-          <Stack.Screen name="Tabs" component={TabNav} />
-          <Stack.Screen name="Connect Code" component={ShareCodeModal} />
-          <Stack.Screen name="Connect" component={LinkDeviceScreen} />
-          <Stack.Screen
-            name="ConnectionCallback"
-            component={CallbackScreen}
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
+        <QueryClientProvider client={queryClient}>
+          <Stack.Navigator
+            screenOptions={{headerShown: false, presentation: 'modal'}}>
+            <Stack.Screen name="Tabs" component={TabNav} />
+            <Stack.Screen name="Connect Code" component={ShareCodeModal} />
+            <Stack.Screen name="Connect" component={LinkDeviceScreen} />
+            <Stack.Screen
+              name="ConnectionCallback"
+              component={CallbackScreen}
+              options={{headerShown: false}}
+            />
+          </Stack.Navigator>
+        </QueryClientProvider>
       </NavigationContainer>
     </GluestackUIProvider>
   );

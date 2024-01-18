@@ -57,7 +57,7 @@ const fetchDataAsync = async (
   });
   if (resp.status >= 400) {
     const text = await resp.text();
-    console.error('error', text);
+    console.warn('error', text);
     throw new Error(text);
   }
   const data = await resp.json();

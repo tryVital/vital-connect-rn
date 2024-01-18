@@ -19,6 +19,13 @@ export const getData = async (key: string) => {
   }
 };
 
+export const getUserId = async () => {
+  return await getData('user_id');
+};
+
+export const getTeam = async () => {
+  return await getData('team');
+};
 export const clearAll = async () => {
   try {
     await AsyncStorage.clear();

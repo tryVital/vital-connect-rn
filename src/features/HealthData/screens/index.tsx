@@ -12,12 +12,14 @@ import {
   ConnectDevicesCard,
   ShareDataCard,
 } from '../../../components/Card/ShareDataCard';
-import {getData, getSDKDevicesForPlatform} from '../../../lib/utils';
+import {getData, getSDKDevicesForPlatform, getUserId} from '../../../lib/utils';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {AppConfig} from '../../../lib/config';
 import {Client} from '../../../lib/client';
 import {Provider} from '../../../lib/models';
 import SelectDropdown from 'react-native-select-dropdown';
+import {useQuery} from '@tanstack/react-query';
+import {useRefetchOnFocus} from '../../../hooks/query';
 
 const DataCards = ({
   navigation,
@@ -34,15 +36,6 @@ const DataCards = ({
   provider: string;
   hasConnectedDevices: boolean;
 }) => {
-  if (!isLoading && error) {
-    return (
-      <VStack space="md">
-        <Text fontType="light">
-          Error in getting data please contact support {AppConfig.supportEmail}
-        </Text>
-      </VStack>
-    );
-  }
   if (error || !userId || !provider) {
     return <ShareDataCard navigation={navigation} />;
   }
@@ -118,62 +111,76 @@ const ProvidersDropdown = ({providers, setIndex, index, colors}) =>
     />
   ) : null;
 
+export const getDataHooks = () => {
+  const {
+    data: userId,
+    isError: isErrorUser,
+    error: errorUser,
+    refetch: refetchUserId,
+  } = useQuery({
+    queryKey: ['userId'],
+    queryFn: getUserId,
+    refetchInterval: 5 * 1000,
+  });
+  const {
+    data: allProviders,
+    isLoading: isLoadingProviders,
+    isError: isErrorAllProviders,
+    error: errorAllProviders,
+    refetch: refetchAllProviders,
+  } = useQuery({
+    queryKey: ['providers', userId],
+    queryFn: async () => {
+      const data = await Client.Providers.getProviders();
+      return getSDKDevicesForPlatform(
+        data,
+        AppConfig.enableHealthConnect,
+        AppConfig.enableHealthKit,
+        Platform.OS,
+      );
+    },
+    refetchInterval: 10 * 1000,
+    enabled: !!userId,
+  });
+
+  const {
+    data: connectedProviders,
+    isLoading: isLoadingConnectedProviders,
+    isError: isErrorConnectedSources,
+    error: errorConnectedSources,
+    refetch: refetchConnectedProviders,
+  } = useQuery({
+    queryKey: ['connectedProviders', userId],
+    queryFn: async () => await Client.User.getConnectedSources(userId),
+    enabled: !!userId,
+    refetchInterval: 10 * 1000,
+  });
+
+  useRefetchOnFocus(refetchUserId, 5 * 1000);
+  useRefetchOnFocus(refetchAllProviders, 5 * 1000);
+  useRefetchOnFocus(refetchConnectedProviders, 5 * 1000);
+
+  return {
+    userId,
+    allProviders: allProviders || [],
+    isLoading: isLoadingProviders || isLoadingConnectedProviders,
+    connectedProviders: connectedProviders || [],
+    isError: isErrorConnectedSources || isErrorAllProviders || isErrorUser,
+    error: errorConnectedSources || errorAllProviders || errorUser,
+  };
+};
+
 export const HealthDataScreen = ({navigation}) => {
   const {colors} = useTheme();
   const styles = makeStyles(colors);
   const isDarkMode = useColorScheme() === 'dark';
-  const [userId, setUserId] = React.useState(null);
-  const [isLoading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
-  const [providers, setProviders] = React.useState<Provider[]>([]);
   const [index, setIndex] = React.useState(0);
-  const [hasConnectedDevices, setHasConnectedDevices] =
-    React.useState<boolean>(false);
 
-  useEffect(() => {
-    const getUserId = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const userId = await getData('user_id');
-        if (!userId) {
-          setLoading(false);
-          setError(null);
-          setUserId(null);
-          setHasConnectedDevices(false);
-          return;
-        }
-        const supportedProviders = await Client.Providers.getProviders();
-        const devices = await Client.User.getConnectedSources(userId);
-        setHasConnectedDevices(devices.length > 0 ? true : false);
-        setProviders(
-          getSDKDevicesForPlatform(
-            supportedProviders,
-            AppConfig.enableHealthConnect,
-            AppConfig.enableHealthKit,
-            Platform.OS,
-          ),
-        );
+  const {userId, allProviders, connectedProviders, isLoading, error} =
+    getDataHooks();
 
-        setError(null);
-        setUserId(userId);
-        setLoading(false);
-      } catch (e) {
-        console.warn(e)
-        setLoading(false);
-        setError(null);
-        setProviders([]);
-        setHasConnectedDevices(false);
-      }
-    };
-
-    const unsubscribe = navigation.addListener('focus', async () => {
-      // The screen is focused
-      // Call any action
-      await getUserId();
-    });
-    return () => unsubscribe();
-  }, [navigation]);
+  const hasConnectedDevices =
+    connectedProviders && connectedProviders.length > 0;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -185,7 +192,7 @@ export const HealthDataScreen = ({navigation}) => {
         <H1>Latest measurements</H1>
         {hasConnectedDevices ? (
           <ProvidersDropdown
-            providers={providers}
+            providers={allProviders}
             setIndex={setIndex}
             index={index}
             colors={colors}
@@ -194,9 +201,9 @@ export const HealthDataScreen = ({navigation}) => {
       </VStack>
       <ScrollView mx={'$5'} paddingTop={16}>
         <DataCards
-          provider={providers.length > 0 ? providers[index]?.slug : ''}
+          provider={allProviders.length > 0 ? allProviders[index]?.slug : ''}
           isLoading={isLoading}
-          error={error}
+          error={error ? error.message : null}
           userId={userId}
           navigation={navigation}
           hasConnectedDevices={hasConnectedDevices}

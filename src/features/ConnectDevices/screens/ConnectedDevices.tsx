@@ -35,7 +35,7 @@ import {
 import {H1, Text} from '../../../components/Text';
 import {useTheme} from '@react-navigation/native';
 import {makeStyles} from '../../../lib/theme';
-import {getData} from '../../../lib/utils';
+import {getUserId} from '../../../lib/utils';
 import {
   ConnectDevicesCard,
   ShareDataCard,
@@ -43,6 +43,8 @@ import {
 import {DeviceCardLoader} from '../../../components/Card/LoaderCard';
 import {VitalHealth} from '@tryvital/vital-health-react-native';
 import {AppConfig} from '../../../lib/config';
+import {useQuery} from '@tanstack/react-query';
+import { useRefetchOnFocus } from '../../../hooks/query';
 
 const ListItem = ({
   userId,
@@ -274,51 +276,61 @@ const AddDeviceButton = ({
   );
 };
 
+const getConnectedDevices = () => {
+  const {
+    data: userId,
+    isError: isErrorUser,
+    error: errorUser,
+    refetch: refetchUserId,
+  } = useQuery({
+    queryKey: ['userId'],
+    queryFn: getUserId,
+    refetchInterval: 5 * 1000,
+  });
+  const {
+    data: connectedProviders,
+    isLoading: isLoadingConnectedProviders,
+    isError: isErrorConnectedSources,
+    error: errorConnectedSources,
+    refetch: refetchConnectedProviders,
+  } = useQuery({
+    queryKey: ['connectedProviders', userId],
+    queryFn: async () => await Client.User.getConnectedSources(userId),
+    enabled: !!userId,
+    refetchInterval: 10 * 1000,
+  });
+  useRefetchOnFocus(refetchUserId)
+  useRefetchOnFocus(refetchConnectedProviders)
+
+  return {
+    userId,
+    connectedProviders: connectedProviders || [],
+    isLoading: userId ? isLoadingConnectedProviders : null,
+    isError: isErrorConnectedSources || isErrorUser,
+    error: errorConnectedSources || errorUser,
+    refetchConnectedProviders,
+  };
+};
+
 export const ConnectedDevicesScreen = ({navigation}) => {
   const {colors} = useTheme();
   const styles = makeStyles(colors);
-  const [devices, setDevices] = React.useState<Provider[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<string | null>(null);
-  const [userId, setUserId] = React.useState<string>('');
   const isDarkMode = useColorScheme() === 'dark';
-
-  useEffect(() => {
-    const getDevices = async () => {
-      setLoading(true);
-      try {
-        const userId = await getData('user_id');
-        if (userId) {
-          const devices = await Client.User.getConnectedSources(userId);
-          setUserId(userId);
-          setDevices(devices);
-          setLoading(false);
-        } else {
-          setUserId('');
-          setLoading(false);
-          setDevices([]);
-          setError(
-            'No user_id is set, please share data with an app or company first',
-          );
-        }
-      } catch (e) {
-        console.warn(e);
-        setError('Failed to get devices');
-        setLoading(false);
-      }
-    };
-    const unsubscribe = navigation.addListener('focus', async () => {
-      // The screen is focused
-      // Call any action
-      await getDevices();
-    });
-    return () => unsubscribe();
-  }, [navigation]);
+  const {
+    userId,
+    connectedProviders: devices,
+    isLoading,
+    isError,
+    error,
+    refetchConnectedProviders,
+  } = getConnectedDevices();
 
   const onDisconnect = async () => {
-    const devices = await Client.User.getConnectedSources(userId);
-    setDevices(devices);
+    await refetchConnectedProviders();
   };
+  
+  console.log({userId, isLoading, isError, error})
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -328,19 +340,19 @@ export const ConnectedDevicesScreen = ({navigation}) => {
 
       <VStack height="$12" pt={'$5'} mx="$5">
         <AddDeviceButton
-          isDisabled={!loading && userId ? false : true}
+          isDisabled={!isLoading && userId ? false : true}
           colors={colors}
           navigation={navigation}
         />
       </VStack>
       <VStack mx="$5">
-        <H1>My Devices</H1>
+        <H1>My devices</H1>
       </VStack>
 
       <ScrollView sx={{flex: 1, mx: '$5'}}>
         <View style={{flex: 1, paddingTop: 16}}>
           <DeviceList
-            isLoading={loading}
+            isLoading={isLoading}
             navigation={navigation}
             userId={userId}
             onDisconnect={onDisconnect}

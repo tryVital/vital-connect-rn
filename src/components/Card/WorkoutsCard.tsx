@@ -57,7 +57,7 @@ export const DailyWorkouts = ({
         title: workout.sport.name,
         // @ts-ignore
         timestamp: format(workout.time_start, 'MMM dd'),
-        subtitle: workout.calories + 'kcal',
+        subtitle: Math.round(workout.calories) + ' kcal',
         statistics: formatTimeString(
           // @ts-ignore
           differenceInSeconds(
