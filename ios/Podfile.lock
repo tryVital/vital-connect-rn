@@ -1136,15 +1136,15 @@ PODS:
   - RNSVG (14.1.0):
     - React-Core
   - SocketRocket (0.6.1)
-  - vital-core-react-native (3.0.7):
+  - vital-core-react-native (3.0.9):
     - React-Core
-    - VitalCore (~> 0.11.1)
-  - vital-health-react-native (3.0.7):
+    - VitalCore (~> 0.11.4)
+  - vital-health-react-native (3.0.9):
     - React-Core
-    - VitalHealthKit (~> 0.11.1)
-  - VitalCore (0.11.1)
-  - VitalHealthKit (0.11.1):
-    - VitalCore (~> 0.11.1)
+    - VitalHealthKit (~> 0.11.4)
+  - VitalCore (0.11.4)
+  - VitalHealthKit (0.11.4):
+    - VitalCore (~> 0.11.4)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -1442,12 +1442,12 @@ SPEC CHECKSUMS:
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2
   RNSVG: ba3e7232f45e34b7b47e74472386cf4e1a676d0a
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  vital-core-react-native: 6d86dd437b22e65c600e47cf32a8635b87c9a678
-  vital-health-react-native: edf7e4de7bdd013aaf4285d4b577f68dd7841024
-  VitalCore: 177b60d2392fda9fdf9462433359e7ea65e7565d
-  VitalHealthKit: d5578e3fae37b5567b9284eb2b2c47739c196620
-  Yoga: 44003f970aa541b79dfdd59cf236fda41bd5890f
+  vital-core-react-native: 30785c5fa670c7e70a4346a8b4fd1222d2057998
+  vital-health-react-native: 19f4f2c7b9b0ae9d7c760ea0d9b1a7a927397707
+  VitalCore: e8d4c4edf732c255c5f761fb94fa053587506aa9
+  VitalHealthKit: f0cda162990ef5d925fe3f5dee3e062c503118c4
+  Yoga: 20d6a900dcc8d61d5e3b799bbf627cc34474a8c4
 
 PODFILE CHECKSUM: 3dba2e71aac7fd2d111670e970d1dd609366ffc9
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.14.3
