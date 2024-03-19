@@ -1,6 +1,7 @@
 package com.vitalreactnativeapp
 
 import android.app.Application
+import android.util.Log
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
@@ -11,6 +12,7 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.flipper.ReactNativeFlipper
 import com.facebook.soloader.SoLoader
+import io.tryvital.client.utils.VitalLogger
 
 class MainApplication : Application(), ReactApplication {
 
@@ -41,5 +43,8 @@ class MainApplication : Application(), ReactApplication {
       load()
     }
     ReactNativeFlipper.initializeFlipper(this, reactNativeHost.reactInstanceManager)
+
+    // OPTIONAL: Enable debug logging (for troubleshooting background sync issues)
+    VitalLogger.getOrCreate().enabled = true
   }
 }

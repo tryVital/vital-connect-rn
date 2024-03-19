@@ -4,8 +4,10 @@ import {
   StatusBar,
   useColorScheme,
   View,
+  ActivityIndicator,
+  Platform,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Client} from '../../../lib/client';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {Provider} from '../../../lib/models';
@@ -45,6 +47,7 @@ import {VitalHealth} from '@tryvital/vital-health-react-native';
 import {AppConfig} from '../../../lib/config';
 import {useQuery} from '@tanstack/react-query';
 import { useRefetchOnFocus } from '../../../hooks/query';
+import { Switch } from 'react-native-gesture-handler';
 
 const ListItem = ({
   userId,
@@ -63,6 +66,46 @@ const ListItem = ({
     await onDisconnect();
     handleClose();
   };
+
+  const isSDKProvider = item.slug === 'apple_health_kit'
+    || item.slug === 'health_connect';
+
+  const [isHydratingSettings, setHydratingSettings] = useState<Boolean>(true);
+  const [shouldPauseSync, setPauseSync] = useState<Boolean | undefined>(undefined);
+  const [isBgSyncEnabled, setBgSyncEnabled] = useState<Boolean | undefined>(undefined);
+
+  useEffect(() => {
+    Promise
+      .all([VitalHealth.pauseSynchronization, VitalHealth.isBackgroundSyncEnabled])
+      .then(([paused, enabled]) => {
+        setPauseSync(paused);
+        setBgSyncEnabled(enabled);
+        setHydratingSettings(false);
+      });
+  }, [userId]);
+
+  const onBgSyncSwitchChange = (shouldEnable: boolean) => {
+    if (Platform.OS !== 'android') {
+      setBgSyncEnabled(true);
+      return;
+    }
+
+    // Optimistic update
+    setBgSyncEnabled(shouldEnable);
+
+    if (shouldEnable) {
+      VitalHealth.enableBackgroundSync()
+        .then((success) => setBgSyncEnabled(success));
+    } else {
+      VitalHealth.disableBackgroundSync()
+        .then(() => setBgSyncEnabled(false));
+    }
+  };
+  const onShareSwitchChange = (shouldShare: boolean) => {
+    setPauseSync(!shouldShare);
+    VitalHealth.setPauseSynchronization(!shouldShare);
+  };
+
   return (
     <Box
       px={'$5'}
@@ -79,21 +122,68 @@ const ListItem = ({
         justifyContent="space-between"
         alignItems={'center'}
         width={'100%'}>
-        <HStack space={'lg'} justifyContent="flex-start" alignItems={'center'}>
-          <Avatar size="sm">
-            <AvatarImage source={item.logo} alt={item.name} />
-          </Avatar>
-          <VStack>
-            <Text color={colors.text} fontSize={16} fontType="medium">
-              {item.name}
-            </Text>
-            <Text color={colors.secondary} fontSize={12} fontType="light">
-              Connected
-            </Text>
-          </VStack>
-        </HStack>
-        {item.slug === 'apple_health_kit' ||
-        item.slug === 'health_connect' ? null : (
+        <VStack>
+          <HStack space={'lg'} justifyContent="flex-start" alignItems={'center'}>
+            <Avatar size="sm">
+              <AvatarImage source={item.logo} alt={item.name} />
+            </Avatar>
+            <VStack alignItems="flex-start">
+              <Text color={colors.text} fontSize={16} fontType="medium">
+                {item.name}
+              </Text>
+              <Text color={colors.secondary} fontSize={12} fontType="light">
+                Connected
+              </Text>
+            </VStack>
+          </HStack>
+
+          {isSDKProvider && isHydratingSettings && (
+            <ActivityIndicator />
+          )}
+          {isSDKProvider && !isHydratingSettings && <>
+            {/** 
+             * Optional SDK feature: Pause Data Synchronization
+             * 
+             * Pausing data sync **does not** reset sync state. It only stops new changes from
+             * being pushed to Vital.
+             **/}
+            <HStack alignItems="center" space={'lg'} mt={16}>
+              <Switch value={!shouldPauseSync} onValueChange={onShareSwitchChange} />
+              <Text fontType="regular">Share New Data</Text>
+            </HStack>
+
+            {/** 
+             * Optional SDK feature: Enable Android Background Sync (EXPERIMENTAL) 
+             * 
+             * To eanble Android Background Sync (Experimental), your Android app must possess
+             * either of the two app permissions:
+             * 
+             * - [USE_EXACT_ALARM] (Android API Level 33+)
+             *   * [VitalHealth.enableBackgroundSync] is non-interactive.
+             *   * Your app does not require interactive permission request for Background Sync
+             *   to be enabled.
+             * 
+             * - [SCHEDULE_EXACT_ALARM] (Android API Level 31+)
+             *   * [VitalHealth.enableBackgroundSync] may be interactive.
+             *   * If the user has not granted Alarms & Reminders permission to your app, the
+             *     OS will prompt the user with an interactive permission request.
+             * 
+             * For iOS/HealthKit, you do not need to explicitly enable Background Sync, since the
+             * grant is rooted at your app's HealthKit Background Delivery entitlement.
+             * 
+             * Having said that, any Background Sync related APIs shall return sensible states on iOS —
+             * as if one has always enabled Background Sync — so that you can build a cross-platform UX
+             * based on it.
+             **/}
+            {Platform.OS === 'android' && (
+              <HStack alignItems="center" space={'lg'} mt={8}>
+                <Switch value={isBgSyncEnabled ?? false} onValueChange={onBgSyncSwitchChange} />
+                <Text fontType="regular">Allow Sync In Background</Text>
+              </HStack>
+            )}
+          </>}
+        </VStack>
+        {!isSDKProvider && (
           <Button
             size="md"
             variant={'link'}

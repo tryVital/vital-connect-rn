@@ -29,7 +29,6 @@ import {
   TabStackParamList,
 } from './src/lib/models/navigation';
 import {
-  VitalHealth,
   VitalHealthEvents,
   VitalHealthReactNativeModule,
 } from '@tryvital/vital-health-react-native';
@@ -39,6 +38,7 @@ import {
   onlineManager,
 } from '@tanstack/react-query';
 import NetInfo from '@react-native-community/netinfo';
+import { reconcileSdkStatus } from './src/lib/vitalSdk';
 
 const Tab = createBottomTabNavigator<TabStackParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -46,15 +46,21 @@ const queryClient = new QueryClient();
 
 const TabNav = () => {
   const {colors} = useTheme();
-  const healthEventEmitter = new NativeEventEmitter(
-    VitalHealthReactNativeModule,
-  );
-  healthEventEmitter.addListener(
-    VitalHealthEvents.statusEvent,
-    (event: any) => {
-      console.log('[Health SDK]', VitalHealthEvents.statusEvent, event);
-    },
-  );
+
+  useEffect(() => {
+    const healthEventEmitter = new NativeEventEmitter(
+      VitalHealthReactNativeModule,
+    );
+    const listener = healthEventEmitter.addListener(
+      VitalHealthEvents.statusEvent,
+      (event: any) => {
+        console.log('[Health SDK]', VitalHealthEvents.statusEvent, event);
+      },
+    );
+
+    return () => listener.remove();
+  });
+
   onlineManager.setEventListener(setOnline => {
     return NetInfo.addEventListener(state => {
       setOnline(!!state.isConnected);
@@ -132,12 +138,9 @@ function App(): React.JSX.Element {
   };
 
   useEffect(() => {
-    try {
-      VitalHealth.syncData();
-    } catch (e) {
-      console.warn('Failed to sync data');
-    }
-  }, []);
+    reconcileSdkStatus();
+    return () => {};
+  });
 
   return (
     <GluestackUIProvider config={config}>

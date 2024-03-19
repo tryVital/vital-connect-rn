@@ -31,16 +31,20 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
 
   const exchangeCode = async () => {
     setLoading(true);
-    await VitalHealth.cleanUp();
-    await VitalCore.cleanUp();
+
+    const status = await VitalCore.status();
+    if (status.includes("signedIn")) {
+      await VitalCore.signOut();
+    }
+
     try {
       setError(null);
       const resp = await Client.Exchange.exchangeCode(code);
       await VitalCore.signIn(resp.sign_in_token);
-      await VitalCore.setUserId(resp.user_id);
+
       await storeData('team', resp.team);
       await storeData('user_id', resp.user_id);
-      await storeData('sign_in_token', resp.sign_in_token);
+
       setLoading(false);
       navigation.goBack();
     } catch (e) {

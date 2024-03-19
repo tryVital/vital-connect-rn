@@ -114,6 +114,10 @@ dependencies {
 
     implementation("androidx.work:work-runtime-ktx:2.9.0")
 
+    // OPTIONAL: For MainApplication to enable Vital SDK debug logging
+    // (useful for troubleshooting background sync issues)
+    implementation("com.github.tryVital.vital-android:VitalClient:2.0.0-beta.5")
+
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
