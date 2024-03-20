@@ -29,6 +29,7 @@ import {
   TabStackParamList,
 } from './src/lib/models/navigation';
 import {
+  VitalHealth,
   VitalHealthEvents,
   VitalHealthReactNativeModule,
 } from '@tryvital/vital-health-react-native';
@@ -138,6 +139,7 @@ function App(): React.JSX.Element {
   };
 
   useEffect(() => {
+    VitalHealth.setSyncNotificationContent(AppConfig.syncNotificationContent);
     reconcileSdkStatus();
     return () => {};
   });
