@@ -90,7 +90,7 @@ const ListItem = ({
     }
     await VitalHealth.setUserId(userId);
     try {
-      await VitalHealth.askForResources([
+      const outcome = await VitalHealth.askForResources([
         VitalResource.Steps,
         VitalResource.Activity,
         VitalResource.HeartRate,
@@ -103,6 +103,12 @@ const ListItem = ({
         VitalResource.ActiveEnergyBurned,
         VitalResource.BasalEnergyBurned,
       ]);
+
+      if (outcome != "success") {
+        setLoading(false);
+        return;
+      }
+      
       await VitalCore.createConnectedSourceIfNotExist(providerSlug);
       setLoading(false);
       navigation.navigate('ConnectionCallback', {
