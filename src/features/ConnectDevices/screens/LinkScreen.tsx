@@ -70,6 +70,7 @@ const ListItem = ({
       });
       return;
     }
+
     try {
       await VitalHealth.configure({
         logsEnabled: true,
@@ -80,6 +81,7 @@ const ListItem = ({
           backgroundDeliveryEnabled: true,
         },
       });
+
     } catch (e) {
       setLoading(false);
       console.warn(`Failed to configure ${providerSlug}`, e);
@@ -88,7 +90,7 @@ const ListItem = ({
         provider: providerSlug,
       });
     }
-    await VitalHealth.setUserId(userId);
+
     try {
       const outcome = await VitalHealth.askForResources([
         VitalResource.Steps,
@@ -109,12 +111,12 @@ const ListItem = ({
         return;
       }
       
-      await VitalCore.createConnectedSourceIfNotExist(providerSlug);
       setLoading(false);
       navigation.navigate('ConnectionCallback', {
         state: 'success',
         provider: providerSlug,
       });
+
     } catch (e) {
       setLoading(false);
       console.warn('Failed to ask for resources', e);

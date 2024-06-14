@@ -47,6 +47,7 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
 
       setLoading(false);
       navigation.goBack();
+
     } catch (e) {
       setError(
         `Failed to sign in with token, please contact ${AppConfig.supportEmail} for help.`,
