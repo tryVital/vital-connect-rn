@@ -1136,17 +1136,17 @@ PODS:
   - RNSVG (14.1.0):
     - React-Core
   - SocketRocket (0.6.1)
-  - vital-core-react-native (4.0.0-beta.2):
+  - vital-core-react-native (4.2.0):
     - React-Core
-    - VitalCore (~> 1.0.0-rc.2)
-  - vital-health-react-native (4.0.0-beta.2):
+    - VitalCore (~> 1.2.1)
+  - vital-health-react-native (4.2.0):
     - React-Core
-    - VitalHealthKit (~> 1.0.0-rc.2)
-  - VitalCore (1.0.0-rc.2):
-    - VitalLogging (~> 1.0.0-rc.2)
-  - VitalHealthKit (1.0.0-rc.2):
-    - VitalCore (~> 1.0.0-rc.2)
-  - VitalLogging (1.0.0-rc.2)
+    - VitalHealthKit (~> 1.2.1)
+  - VitalCore (1.2.1):
+    - VitalLogging (~> 1.2.1)
+  - VitalHealthKit (1.2.1):
+    - VitalCore (~> 1.2.1)
+  - VitalLogging (1.2.1)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -1233,6 +1233,9 @@ DEPENDENCIES:
   - RNSVG (from `../node_modules/react-native-svg`)
   - "vital-core-react-native (from `../node_modules/@tryvital/vital-core-react-native`)"
   - "vital-health-react-native (from `../node_modules/@tryvital/vital-health-react-native`)"
+  - VitalCore (from `https://github.com/tryVital/vital-ios.git`, tag `1.2.1`)
+  - VitalHealthKit (from `https://github.com/tryVital/vital-ios.git`, tag `1.2.1`)
+  - VitalLogging (from `https://github.com/tryVital/vital-ios.git`, tag `1.2.1`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1250,9 +1253,6 @@ SPEC REPOS:
     - libevent
     - OpenSSL-Universal
     - SocketRocket
-    - VitalCore
-    - VitalHealthKit
-    - VitalLogging
 
 EXTERNAL SOURCES:
   boost:
@@ -1372,8 +1372,28 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@tryvital/vital-core-react-native"
   vital-health-react-native:
     :path: "../node_modules/@tryvital/vital-health-react-native"
+  VitalCore:
+    :git: https://github.com/tryVital/vital-ios.git
+    :tag: 1.2.1
+  VitalHealthKit:
+    :git: https://github.com/tryVital/vital-ios.git
+    :tag: 1.2.1
+  VitalLogging:
+    :git: https://github.com/tryVital/vital-ios.git
+    :tag: 1.2.1
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
+
+CHECKOUT OPTIONS:
+  VitalCore:
+    :git: https://github.com/tryVital/vital-ios.git
+    :tag: 1.2.1
+  VitalHealthKit:
+    :git: https://github.com/tryVital/vital-ios.git
+    :tag: 1.2.1
+  VitalLogging:
+    :git: https://github.com/tryVital/vital-ios.git
+    :tag: 1.2.1
 
 SPEC CHECKSUMS:
   boost: 26fad476bfa736552bbfa698a06cc530475c1505
@@ -1445,13 +1465,13 @@ SPEC CHECKSUMS:
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2
   RNSVG: ba3e7232f45e34b7b47e74472386cf4e1a676d0a
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  vital-core-react-native: a9705d351a8b6443025de3f45a56e5e574362ea3
-  vital-health-react-native: d0581ad7ec23c069d15832173403cb0c7c98c956
-  VitalCore: cc0347e55f5a2510c51d31b12e3e83035cc42c05
-  VitalHealthKit: 9843921908239233e1d3cd9def95c05e0241218e
-  VitalLogging: 535fc1579ba752598f9c1b213077f2e972dac231
+  vital-core-react-native: 4e074179f5690a9f50cf955aabd7ec36e33007fa
+  vital-health-react-native: f8f8f924ac7e37bde2b3a4bc27049b38c6ea9b98
+  VitalCore: cd8614d39a2d2594d3aff2fd88d26a417f1e99af
+  VitalHealthKit: 53ba9a6c13e90ee2e3f3945770a919cbe9a2eda4
+  VitalLogging: bcbc1aee4ea1d66adf61a6427137972a0ce7b436
   Yoga: 20d6a900dcc8d61d5e3b799bbf627cc34474a8c4
 
-PODFILE CHECKSUM: 3dba2e71aac7fd2d111670e970d1dd609366ffc9
+PODFILE CHECKSUM: 400943509c622b2a1349f42f5e91209ccadcb3a0
 
 COCOAPODS: 1.14.3
