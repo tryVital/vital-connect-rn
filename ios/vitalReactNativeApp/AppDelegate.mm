@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 #import "VitalHealthKitConfiguration.h"
+#import "VitalCoreConfiguration.h"
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
@@ -8,6 +9,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+#if DEBUG
+  [VitalCoreConfiguration setStdOutEnabled:YES];
+#endif
   [VitalHealthKitConfiguration automaticConfiguration];
 
   self.moduleName = @"vitalReactNativeApp";
