@@ -48,6 +48,7 @@ import {AppConfig} from '../../../lib/config';
 import {useQuery} from '@tanstack/react-query';
 import { useRefetchOnFocus } from '../../../hooks/query';
 import { Switch } from 'react-native-gesture-handler';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ListItem = ({
   userId,
@@ -59,6 +60,8 @@ const ListItem = ({
   onDisconnect: () => void;
 }) => {
   const [showActionsheet, setShowActionsheet] = React.useState(false);
+  const insets = useSafeAreaInsets();
+
   const handleClose = () => setShowActionsheet(!showActionsheet);
   const {colors} = useTheme();
   const disconnectProvider = async (user_id: string) => {
@@ -104,6 +107,11 @@ const ListItem = ({
   const onShareSwitchChange = (shouldShare: boolean) => {
     setPauseSync(!shouldShare);
     VitalHealth.setPauseSynchronization(!shouldShare);
+  };
+
+  const openSyncProgressView = () => {
+    VitalHealth.openSyncProgressView();
+    handleClose();
   };
 
   return (
@@ -183,33 +191,40 @@ const ListItem = ({
             )}
           </>}
         </VStack>
-        {!isSDKProvider && (
-          <Button
-            size="md"
-            variant={'link'}
-            action="primary"
-            onPress={() => setShowActionsheet(!showActionsheet)}
-            isDisabled={false}
-            isFocusVisible={false}>
-            <EntypoIcon
-              name="dots-three-horizontal"
-              size={15}
-              color={colors.text}
-            />
-          </Button>
-        )}
+        <Button
+          size="md"
+          variant={'link'}
+          action="primary"
+          onPress={() => setShowActionsheet(!showActionsheet)}
+          isDisabled={false}
+          isFocusVisible={false}>
+          <EntypoIcon
+            name="dots-three-horizontal"
+            size={15}
+            color={colors.text}
+          />
+        </Button>
       </HStack>
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} zIndex={999}>
         <ActionsheetBackdrop />
-        <ActionsheetContent backgroundColor={colors.backgroundSection}>
+        <ActionsheetContent backgroundColor={colors.backgroundSection} style={{ paddingBottom: insets.bottom }}>
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
-          <ActionsheetItem onPress={() => disconnectProvider(userId)}>
-            <ActionsheetItemText color={colors.text}>
-              Disconnect
-            </ActionsheetItemText>
-          </ActionsheetItem>
+          {Platform.OS === 'ios' && (
+            <ActionsheetItem onPress={openSyncProgressView}>
+              <ActionsheetItemText color={colors.text}>
+                Inspect Sync Progress
+              </ActionsheetItemText>
+            </ActionsheetItem>
+          )}
+          {!isSDKProvider && (
+            <ActionsheetItem onPress={() => disconnectProvider(userId)}>
+              <ActionsheetItemText color={colors.text}>
+                Disconnect
+              </ActionsheetItemText>
+            </ActionsheetItem>
+          )}
         </ActionsheetContent>
       </Actionsheet>
     </Box>

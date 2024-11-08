@@ -39,10 +39,6 @@ target 'vitalReactNativeApp' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'VitalLogging', :git => 'https://github.com/tryVital/vital-ios.git', :tag => '1.2.1'
-  pod 'VitalCore', :git => 'https://github.com/tryVital/vital-ios.git', :tag => '1.2.1'
-  pod 'VitalHealthKit', :git => 'https://github.com/tryVital/vital-ios.git', :tag => '1.2.1'
-
   target 'vitalReactNativeAppTests' do
     inherit! :complete
     # Pods for testing
