@@ -9,7 +9,7 @@ import {
   ModalCloseButton,
   HStack,
 } from '@gluestack-ui/themed';
-import React from 'react';
+import React, { useRef } from 'react';
 import {SafeAreaView, useColorScheme} from 'react-native';
 import {AppConfig} from '../../../lib/config';
 import {H1, Text} from '../../../components/Text';
@@ -29,7 +29,14 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<null | string>(null);
 
+  const isExchanging = useRef(false);
+
   const exchangeCode = async () => {
+    if (isExchanging.current) {
+      return;
+    }
+
+    isExchanging.current = true;
     setLoading(true);
 
     const status = await VitalCore.status();
@@ -45,15 +52,17 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
       await storeData('team', resp.team);
       await storeData('user_id', resp.user_id);
 
-      setLoading(false);
       navigation.goBack();
 
     } catch (e) {
       setError(
         `Failed to sign in with token, please contact ${AppConfig.supportEmail} for help.`,
       );
-      setLoading(false);
       console.warn(e);
+
+    } finally {
+      setLoading(false);
+      isExchanging.current = false;
     }
   };
 
