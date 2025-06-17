@@ -6,7 +6,6 @@ import {
   useTheme,
 } from '@react-navigation/native';
 import {useColorScheme, NativeEventEmitter} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   ShareStack,
@@ -116,12 +115,7 @@ const linking = {
 };
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   const theme = useColorScheme();
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   const DefaultThemeCustom = {
     ...DefaultTheme,

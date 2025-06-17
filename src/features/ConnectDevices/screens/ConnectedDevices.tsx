@@ -33,6 +33,7 @@ import {
   ModalCloseButton,
   ModalBody,
   Pressable,
+  Switch,
 } from '@gluestack-ui/themed';
 import {H1, Text} from '../../../components/Text';
 import {useTheme} from '@react-navigation/native';
@@ -47,7 +48,6 @@ import {VitalHealth} from '@tryvital/vital-health-react-native';
 import {AppConfig} from '../../../lib/config';
 import {useQuery} from '@tanstack/react-query';
 import { useRefetchOnFocus } from '../../../hooks/query';
-import { Switch } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ListItem = ({
@@ -74,8 +74,8 @@ const ListItem = ({
     || item.slug === 'health_connect';
 
   const [isHydratingSettings, setHydratingSettings] = useState<Boolean>(true);
-  const [shouldPauseSync, setPauseSync] = useState<Boolean | undefined>(undefined);
-  const [isBgSyncEnabled, setBgSyncEnabled] = useState<Boolean | undefined>(undefined);
+  const [shouldPauseSync, setPauseSync] = useState<boolean | undefined>(undefined);
+  const [isBgSyncEnabled, setBgSyncEnabled] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     Promise

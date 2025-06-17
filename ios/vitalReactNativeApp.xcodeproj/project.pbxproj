@@ -10,16 +10,15 @@
 		00E356F31AD99517003FC87E /* vitalReactNativeAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* vitalReactNativeAppTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-vitalReactNativeApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-vitalReactNativeApp.a */; };
 		11353E0E17A64C36A4E6945F /* Aeonik-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57333F0E82BC4DCA9EFB0BD1 /* Aeonik-ThinItalic.otf */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		18D57341BC86439780FD90FC /* Aeonik-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5AB64ED16CC3428FAE74FA10 /* Aeonik-BlackItalic.otf */; };
 		1F013781F59C432AB4AFD417 /* Aeonik-Air.otf in Resources */ = {isa = PBXBuildFile; fileRef = C013478AA43F4452A09BAAE5 /* Aeonik-Air.otf */; };
 		4EBA00BC4C124E1DA0BB08EE /* Aeonik-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = D65A7A7715564110B9E256BD /* Aeonik-Black.otf */; };
 		51DE269E97404FCAB91EF359 /* Aeonik-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6436CEE38820408B8F45C6AA /* Aeonik-Thin.otf */; };
-		7699B88040F8A987B510C191 /* libPods-vitalReactNativeApp-vitalReactNativeAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-vitalReactNativeApp-vitalReactNativeAppTests.a */; };
 		8167C4F9977D4899BB0604E8 /* Aeonik-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0B82281CD63E44A6B9430CED /* Aeonik-MediumItalic.otf */; };
 		8EA6EA788D494A39AC576059 /* Aeonik-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9CF209F12CAD42B3B95E9C1A /* Aeonik-LightItalic.otf */; };
+		9ABB5C7A2E023D8200AE9A8D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9ABB5C792E023D7600AE9A8D /* PrivacyInfo.xcprivacy */; };
+		9ABB5C7C2E024C2500AE9A8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB5C7B2E024C2000AE9A8D /* AppDelegate.swift */; };
 		A201FC2DDBC64782B0ABE416 /* Aeonik-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 82CC0A3176F34BAB85CAE468 /* Aeonik-BoldItalic.otf */; };
 		A354154059FE4451B7C300B9 /* Aeonik-AirItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0674E2A65FD444BD92818C5E /* Aeonik-AirItalic.otf */; };
 		A4C69B5F2B884F2EB36B690B /* Aeonik-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 58DCFA94249A409DB72F0355 /* Aeonik-RegularItalic.otf */; };
@@ -65,23 +64,19 @@
 		0674E2A65FD444BD92818C5E /* Aeonik-AirItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-AirItalic.otf"; path = "../assets/fonts/Aeonik-AirItalic.otf"; sourceTree = "<group>"; };
 		0B82281CD63E44A6B9430CED /* Aeonik-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-MediumItalic.otf"; path = "../assets/fonts/Aeonik-MediumItalic.otf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* vitalReactNativeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vitalReactNativeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = vitalReactNativeApp/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = vitalReactNativeApp/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = vitalReactNativeApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = vitalReactNativeApp/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = vitalReactNativeApp/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-vitalReactNativeApp-vitalReactNativeAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-vitalReactNativeApp-vitalReactNativeAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9457430731433FAE7FC164 /* Aeonik-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-Regular.otf"; path = "../assets/fonts/Aeonik-Regular.otf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-vitalReactNativeApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vitalReactNativeApp.debug.xcconfig"; path = "Target Support Files/Pods-vitalReactNativeApp/Pods-vitalReactNativeApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-vitalReactNativeApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vitalReactNativeApp.release.xcconfig"; path = "Target Support Files/Pods-vitalReactNativeApp/Pods-vitalReactNativeApp.release.xcconfig"; sourceTree = "<group>"; };
 		57333F0E82BC4DCA9EFB0BD1 /* Aeonik-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-ThinItalic.otf"; path = "../assets/fonts/Aeonik-ThinItalic.otf"; sourceTree = "<group>"; };
 		58DCFA94249A409DB72F0355 /* Aeonik-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-RegularItalic.otf"; path = "../assets/fonts/Aeonik-RegularItalic.otf"; sourceTree = "<group>"; };
 		5AB64ED16CC3428FAE74FA10 /* Aeonik-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-BlackItalic.otf"; path = "../assets/fonts/Aeonik-BlackItalic.otf"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-vitalReactNativeApp-vitalReactNativeAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vitalReactNativeApp-vitalReactNativeAppTests.debug.xcconfig"; path = "Target Support Files/Pods-vitalReactNativeApp-vitalReactNativeAppTests/Pods-vitalReactNativeApp-vitalReactNativeAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-vitalReactNativeApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-vitalReactNativeApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6436CEE38820408B8F45C6AA /* Aeonik-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-Thin.otf"; path = "../assets/fonts/Aeonik-Thin.otf"; sourceTree = "<group>"; };
 		82CC0A3176F34BAB85CAE468 /* Aeonik-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-BoldItalic.otf"; path = "../assets/fonts/Aeonik-BoldItalic.otf"; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-vitalReactNativeApp-vitalReactNativeAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vitalReactNativeApp-vitalReactNativeAppTests.release.xcconfig"; path = "Target Support Files/Pods-vitalReactNativeApp-vitalReactNativeAppTests/Pods-vitalReactNativeApp-vitalReactNativeAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		9ABB5C792E023D7600AE9A8D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		9ABB5C7B2E024C2000AE9A8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9CF209F12CAD42B3B95E9C1A /* Aeonik-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-LightItalic.otf"; path = "../assets/fonts/Aeonik-LightItalic.otf"; sourceTree = "<group>"; };
 		A04CD2E9EA79461B86525420 /* Aeonik-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-Light.otf"; path = "../assets/fonts/Aeonik-Light.otf"; sourceTree = "<group>"; };
 		C013478AA43F4452A09BAAE5 /* Aeonik-Air.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Aeonik-Air.otf"; path = "../assets/fonts/Aeonik-Air.otf"; sourceTree = "<group>"; };
@@ -116,7 +111,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-vitalReactNativeApp-vitalReactNativeAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,12 +145,11 @@
 		13B07FAE1A68108700A75B9A /* vitalReactNativeApp */ = {
 			isa = PBXGroup;
 			children = (
+				9ABB5C7B2E024C2000AE9A8D /* AppDelegate.swift */,
+				9ABB5C792E023D7600AE9A8D /* PrivacyInfo.xcprivacy */,
 				D654C7E02B31130D0000CD2C /* vitalReactNativeApp.entitlements */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = vitalReactNativeApp;
 			sourceTree = "<group>";
@@ -166,7 +159,6 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-vitalReactNativeApp.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-vitalReactNativeApp-vitalReactNativeAppTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -209,8 +201,6 @@
 			children = (
 				3B4392A12AC88292D35C810B /* Pods-vitalReactNativeApp.debug.xcconfig */,
 				5709B34CF0A7D63546082F79 /* Pods-vitalReactNativeApp.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-vitalReactNativeApp-vitalReactNativeAppTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-vitalReactNativeApp-vitalReactNativeAppTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -269,12 +259,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "vitalReactNativeAppTests" */;
 			buildPhases = (
-				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
-				F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -363,6 +350,7 @@
 				D654C7D12B2F736E0000CD2C /* Entypo.ttf in Resources */,
 				D654C7D42B2F736E0000CD2C /* AntDesign.ttf in Resources */,
 				D654C7DA2B2F736E0000CD2C /* Zocial.ttf in Resources */,
+				9ABB5C7A2E023D8200AE9A8D /* PrivacyInfo.xcprivacy in Resources */,
 				D654C7D52B2F736E0000CD2C /* Foundation.ttf in Resources */,
 				D654C7DE2B2F736E0000CD2C /* FontAwesome6_Brands.ttf in Resources */,
 				D654C7CF2B2F736E0000CD2C /* Feather.ttf in Resources */,
@@ -409,7 +397,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
 		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -426,28 +414,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-vitalReactNativeApp/Pods-vitalReactNativeApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-vitalReactNativeApp-vitalReactNativeAppTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
@@ -472,23 +438,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-vitalReactNativeApp-vitalReactNativeAppTests/Pods-vitalReactNativeApp-vitalReactNativeAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-vitalReactNativeApp-vitalReactNativeAppTests/Pods-vitalReactNativeApp-vitalReactNativeAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-vitalReactNativeApp-vitalReactNativeAppTests/Pods-vitalReactNativeApp-vitalReactNativeAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -506,23 +455,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-vitalReactNativeApp/Pods-vitalReactNativeApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-vitalReactNativeApp-vitalReactNativeAppTests/Pods-vitalReactNativeApp-vitalReactNativeAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-vitalReactNativeApp-vitalReactNativeAppTests/Pods-vitalReactNativeApp-vitalReactNativeAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-vitalReactNativeApp-vitalReactNativeAppTests/Pods-vitalReactNativeApp-vitalReactNativeAppTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -538,8 +470,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				9ABB5C7C2E024C2500AE9A8D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,7 +487,6 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-vitalReactNativeApp-vitalReactNativeAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -583,7 +513,6 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-vitalReactNativeApp-vitalReactNativeAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -730,13 +659,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-Wl",
-					"-ld_classic",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				USE_HERMES = true;
 			};
 			name = Debug;
@@ -802,11 +728,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-Wl",
-					"-ld_classic",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
