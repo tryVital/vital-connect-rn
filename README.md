@@ -1,7 +1,8 @@
 
 # Junction Connect - Getting Started
 
-The Junction Connect app
+Junction Connect is a React Native cross-platform app for iOS and Android. It uses the Expo Prebuild
+to manage the native app projects.
 
 ## Start your application
 
@@ -16,7 +17,7 @@ npx expo prebuild
 npx expo run:ios
 
 # Run the Android app
-npx expo run:ios
+npx expo run:android
 ```
 
 # Deep Linking 
