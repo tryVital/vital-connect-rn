@@ -1,5 +1,4 @@
 import { SyncNotificationContent } from '@tryvital/vital-health-react-native';
-import Config from 'react-native-config';
 
 export interface ThemeColors {
   ['gray.400']: string;
