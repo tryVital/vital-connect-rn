@@ -1,16 +1,15 @@
 {
   "expo": {
-    "name": "Vital Connect",
-    "slug": "vitalconnect",
+    "name": "Junction Connect",
+    "slug": "junction-connect",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.anonymous.vitalconnect"
     },
     "android": {
-      "package": "com.anonymous.vitalconnect",
+      "package": "com.junction.android.connect",
+      "versionCode": 2,
       "permissions": [
         "android.permission.SCHEDULE_EXACT_ALARM",
         "android.permission.health.READ_HEIGHT",
@@ -56,6 +55,14 @@
           "samsungHealth": {
             "aarPath": "../vendor/samsung-health-data-api-1.0.0.aar"
           }
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "connect",
+          "organization": "vital-api"
         }
       ]
     ]

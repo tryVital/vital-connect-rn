@@ -39,7 +39,22 @@ import {
   onlineManager,
 } from '@tanstack/react-query';
 import NetInfo from '@react-native-community/netinfo';
-import { reconcileSdkStatus } from './src/lib/vitalSdk';
+import {reconcileSdkStatus} from './src/lib/vitalSdk';
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'https://2a0cea8f4157687a9307762fbd69342a@o532779.ingest.us.sentry.io/4509515696111616',
+
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+  sendDefaultPii: true,
+
+  // Enable Logs
+  enableLogs: false,
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // spotlight: __DEV__,
+});
 
 const Tab = createBottomTabNavigator<TabStackParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -188,4 +203,4 @@ function App(): React.JSX.Element {
   );
 }
 
-export default App;
+export default Sentry.wrap(App);

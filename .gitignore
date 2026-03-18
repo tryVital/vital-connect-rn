@@ -75,3 +75,5 @@ android/.gradle-home/
 # Expo project structure
 android/
 ios/
+
+.env.local

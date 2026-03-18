@@ -22,6 +22,7 @@
     "@react-navigation/native": "^7.1.11",
     "@react-navigation/native-stack": "^7.3.16",
     "@react-navigation/stack": "^7.3.4",
+    "@sentry/react-native": "^8.4.0",
     "@tanstack/react-query": "^5.17.15",
     "@tryvital/vital-core-react-native": "6.0.0-rc.2",
     "@tryvital/vital-health-react-native": "6.0.0-rc.2",
