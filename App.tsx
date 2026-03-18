@@ -5,7 +5,7 @@ import {
   DarkTheme,
   useTheme,
 } from '@react-navigation/native';
-import {useColorScheme, NativeEventEmitter} from 'react-native';
+import {useColorScheme, NativeEventEmitter, Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   ShareStack,
@@ -28,6 +28,7 @@ import {
   TabStackParamList,
 } from './src/lib/models/navigation';
 import {
+  AndroidHealthProvider,
   VitalHealth,
   VitalHealthEvents,
   VitalHealthReactNativeModule,
@@ -133,10 +134,36 @@ function App(): React.JSX.Element {
   };
 
   useEffect(() => {
-    VitalHealth.setSyncNotificationContent(AppConfig.syncNotificationContent);
+    const configureAndroidSyncNotifications = async () => {
+      if (Platform.OS !== 'android') {
+        return;
+      }
+
+      const providers: Array<AndroidHealthProvider> = [];
+
+      if (AppConfig.enableHealthConnect) {
+        providers.push(AndroidHealthProvider.HealthConnect);
+      }
+
+      if (AppConfig.enableSamsungHealth) {
+        providers.push(AndroidHealthProvider.SamsungHealth);
+      }
+
+      await Promise.all(
+        providers.map(provider =>
+          VitalHealth.setSyncNotificationContent(
+            AppConfig.syncNotificationContent,
+            provider,
+          ),
+        ),
+      );
+    };
+
+    configureAndroidSyncNotifications().catch(error => {
+      console.warn('Failed to configure Vital sync notifications', error);
+    });
     reconcileSdkStatus();
-    return () => {};
-  });
+  }, []);
 
   return (
     <GluestackUIProvider config={config}>

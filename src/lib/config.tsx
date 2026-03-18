@@ -28,13 +28,14 @@ interface AppConfigProps {
   termsUrl: string;
   privacyUrl: string;
   enableHealthConnect: boolean;
+  enableSamsungHealth: boolean;
   enableHealthKit: boolean;
   colors: ThemeColorMap;
   fonts: any;
   shareText: string;
 
   /**
-   * Only applicable to Android Health Connect.
+   * Only applicable to Android health providers.
    * See https://docs.tryvital.io/wearables/guides/android-health-connect#running-as-foreground-service.
    */
   syncNotificationContent: SyncNotificationContent;
@@ -49,6 +50,7 @@ export const AppConfig: AppConfigProps = {
   termsUrl: 'https://tryvital.io/terms',
   privacyUrl: 'https://tryvital.io/privacy',
   enableHealthConnect: true,
+  enableSamsungHealth: true,
   enableHealthKit: true,
   shareText:
     'To start sharing you will need a share code. You partners should be able to provide this for you.',
