@@ -75,6 +75,7 @@ const ListItem = ({
       await VitalHealth.configure({
         logsEnabled: true,
         numberOfDaysToBackFill: 30,
+        connectionPolicy: 'autoConnect',
         androidConfig: {syncOnAppStart: true},
         iOSConfig: {
           dataPushMode: 'automatic',
