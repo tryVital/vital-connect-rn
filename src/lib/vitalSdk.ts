@@ -17,8 +17,8 @@ export const reconcileSdkStatus = async () => {
 
     if (!status.includes("signedIn")) {
         await clearAll();
+        return
     }
-
 
     // Ensure that the Health SDK configuration is in sync with our expected values.
     if (Platform.OS === "ios") {
