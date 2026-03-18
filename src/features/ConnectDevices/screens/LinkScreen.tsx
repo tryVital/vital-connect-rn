@@ -6,6 +6,7 @@ import {
   View,
   useColorScheme,
   Platform,
+  Pressable,
 } from 'react-native';
 import {Client} from '../../../lib/client';
 import {Provider} from '../../../lib/models';
@@ -17,7 +18,6 @@ import {
   HStack,
   Input,
   InputField,
-  Pressable,
   Button,
   VStack,
 } from '@gluestack-ui/themed';
@@ -27,8 +27,57 @@ import {H1, Text} from '../../../components/Text';
 import {useTheme} from '@react-navigation/native';
 import {makeStyles} from '../../../lib/theme';
 import {getData, getSDKDevicesForPlatform} from '../../../lib/utils';
-import {ManualProviderSlug, VitalCore} from '@tryvital/vital-core-react-native';
-import {VitalHealth, VitalResource} from '@tryvital/vital-health-react-native';
+import {
+  AndroidHealthProvider,
+  IOSHealthProvider,
+  VitalHealth,
+  VitalResource,
+} from '@tryvital/vital-health-react-native';
+import { configureSDK } from '../../../lib/vitalSdk';
+
+const unavailableHealthProviderMessage = 'Not installed on this device';
+
+const isAndroidSDKProviderSlug = (
+  slug: string,
+): slug is
+  | AndroidHealthProvider.HealthConnect
+  | AndroidHealthProvider.SamsungHealth =>
+  slug === AndroidHealthProvider.HealthConnect ||
+  slug === AndroidHealthProvider.SamsungHealth;
+
+const hydrateHealthProviderAvailability = async (devices: Provider[]) => {
+  if (Platform.OS !== 'android') {
+    return devices;
+  }
+
+  return await Promise.all(
+    devices.map(async device => {
+      if (!isAndroidSDKProviderSlug(device.slug)) {
+        return device;
+      }
+
+      try {
+        const isAvailable = await VitalHealth.isAvailable(device.slug);
+
+        return {
+          ...device,
+          isDisabled: !isAvailable,
+          disabledDescription: isAvailable
+            ? undefined
+            : unavailableHealthProviderMessage,
+        };
+      } catch (error) {
+        console.warn(`Failed to resolve availability for ${device.slug}`, error);
+
+        return {
+          ...device,
+          isDisabled: true,
+          disabledDescription: unavailableHealthProviderMessage,
+        };
+      }
+    }),
+  );
+};
 
 const handleOAuth = async (userId: string, item: Provider) => {
   const linkToken = await Client.Link.getLinkToken(
@@ -52,18 +101,21 @@ const ListItem = ({
   const {colors} = useTheme();
   const isDarkMode = useColorScheme() === 'dark';
   const [isLoading, setLoading] = useState(false);
+  const isDisabled = Boolean(item.isDisabled) || isLoading;
 
-  const handleNativeHealthKit = async () => {
+  const handleNativeHealthProvider = async () => {
     const providerSlug =
-      Platform.OS == 'ios'
-        ? ManualProviderSlug.AppleHealthKit
-        : ManualProviderSlug.HealthConnect;
+      Platform.OS === 'ios'
+        ? IOSHealthProvider.AppleHealthKit
+        : item.slug === AndroidHealthProvider.SamsungHealth
+          ? AndroidHealthProvider.SamsungHealth
+          : AndroidHealthProvider.HealthConnect;
 
     setLoading(true);
 
-    const isHealthSDKAvailable = await VitalHealth.isAvailable();
+    const isHealthSDKAvailable = await VitalHealth.isAvailable(providerSlug);
     if (!isHealthSDKAvailable) {
-      console.warn('Health Connect is not available on this device.');
+      console.warn(`${providerSlug} is not available on this device.`);
       navigation.navigate('ConnectionCallback', {
         state: 'failed',
         provider: providerSlug,
@@ -72,16 +124,7 @@ const ListItem = ({
     }
 
     try {
-      await VitalHealth.configure({
-        logsEnabled: true,
-        numberOfDaysToBackFill: 30,
-        connectionPolicy: 'autoConnect',
-        androidConfig: {syncOnAppStart: true},
-        iOSConfig: {
-          dataPushMode: 'automatic',
-          backgroundDeliveryEnabled: true,
-        },
-      });
+      await configureSDK(providerSlug);
 
     } catch (e) {
       setLoading(false);
@@ -90,6 +133,7 @@ const ListItem = ({
         state: 'failed',
         provider: providerSlug,
       });
+      return;
     }
 
     try {
@@ -105,12 +149,14 @@ const ListItem = ({
         VitalResource.Profile,
         VitalResource.ActiveEnergyBurned,
         VitalResource.BasalEnergyBurned,
-      ]);
+      ], providerSlug);
 
       if (outcome != "success") {
         setLoading(false);
         return;
       }
+
+      await VitalHealth.connect(providerSlug);
       
       setLoading(false);
       navigation.navigate('ConnectionCallback', {
@@ -120,7 +166,7 @@ const ListItem = ({
 
     } catch (e) {
       setLoading(false);
-      console.warn('Failed to ask for resources', e);
+      console.warn(`Failed to connect ${providerSlug}`, e);
       navigation.navigate('ConnectionCallback', {
         state: 'failed',
         provider: providerSlug,
@@ -129,31 +175,38 @@ const ListItem = ({
   };
 
   const onPress = async () => {
+    if (isDisabled) {
+      return;
+    }
+
     if (item.auth_type === 'oauth') {
       await handleOAuth(userId, item);
     } else if (
-      item.slug === 'apple_health_kit' ||
-      item.slug === 'health_connect'
+      item.slug === IOSHealthProvider.AppleHealthKit ||
+      item.slug === AndroidHealthProvider.HealthConnect ||
+      item.slug === AndroidHealthProvider.SamsungHealth
     ) {
-      await handleNativeHealthKit();
+      await handleNativeHealthProvider();
     }
   };
 
   return (
-    <Pressable onPress={() => onPress()}>
-      {({isHovered, isFocused, isPressed}) => {
+    <Pressable disabled={isDisabled} onPress={onPress}>
+      {({pressed}) => {
         return (
           <Box
             borderBottomWidth="$1"
             borderColor={isDarkMode ? 'rgba(255,255,255,0.2)' : '$coolGray200'}
             py="$5"
-            opacity={isPressed ? 0.6 : 1}>
+            opacity={isDisabled ? 0.5 : pressed ? 0.6 : 1}>
             <HStack space={'md'} justifyContent="flex-start">
               <Avatar size="md">
                 <AvatarImage source={item.logo} alt={item.name} />
               </Avatar>
               <VStack>
-                <Text color={colors.text} fontType="medium">
+                <Text
+                  color={item.isDisabled ? colors.secondary : colors.text}
+                  fontType="medium">
                   {item.name}
                 </Text>
                 <Text
@@ -162,7 +215,7 @@ const ListItem = ({
                   size="xs"
                   flexShrink={1}
                   flexWrap="wrap">
-                  {item.description}
+                  {item.disabledDescription ?? item.description}
                 </Text>
               </VStack>
             </HStack>
@@ -203,24 +256,20 @@ export const LinkDeviceScreen = ({navigation}) => {
       const user_id = await getData('user_id');
       if (user_id) {
         const devices = await Client.Providers.getProviders();
-        setLoading(false);
+        const supportedDevices = getSDKDevicesForPlatform(
+          devices,
+          AppConfig.enableHealthConnect,
+          AppConfig.enableSamsungHealth,
+          AppConfig.enableHealthKit,
+          Platform.OS,
+        );
+        const hydratedDevices =
+          await hydrateHealthProviderAvailability(supportedDevices);
+
         setUserId(user_id);
-        setDevices(
-          getSDKDevicesForPlatform(
-            devices,
-            AppConfig.enableHealthConnect,
-            AppConfig.enableHealthKit,
-            Platform.OS,
-          ),
-        );
-        setProviders(
-          getSDKDevicesForPlatform(
-            devices,
-            AppConfig.enableHealthConnect,
-            AppConfig.enableHealthKit,
-            Platform.OS,
-          ),
-        );
+        setDevices(hydratedDevices);
+        setProviders(hydratedDevices);
+        setLoading(false);
       } else {
         setUserId('');
         setLoading(false);

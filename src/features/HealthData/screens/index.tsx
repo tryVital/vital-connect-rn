@@ -135,6 +135,7 @@ export const getDataHooks = () => {
       return getSDKDevicesForPlatform(
         data,
         AppConfig.enableHealthConnect,
+        AppConfig.enableSamsungHealth,
         AppConfig.enableHealthKit,
         Platform.OS,
       );

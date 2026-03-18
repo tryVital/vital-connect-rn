@@ -5,4 +5,6 @@ export interface Provider {
   logo: string;
   auth_type: string;
   oauth_url: string;
+  isDisabled?: boolean;
+  disabledDescription?: string;
 }

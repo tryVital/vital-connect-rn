@@ -44,7 +44,12 @@ import {
   ShareDataCard,
 } from '../../../components/Card/ShareDataCard';
 import {DeviceCardLoader} from '../../../components/Card/LoaderCard';
-import {VitalHealth} from '@tryvital/vital-health-react-native';
+import {
+  AndroidHealthProvider,
+  IOSHealthProvider,
+  VitalHealth,
+} from '@tryvital/vital-health-react-native';
+import type {HealthProvider} from '@tryvital/vital-health-react-native';
 import {AppConfig} from '../../../lib/config';
 import {useQuery} from '@tanstack/react-query';
 import { useRefetchOnFocus } from '../../../hooks/query';
@@ -69,26 +74,72 @@ const ListItem = ({
     await onDisconnect();
     handleClose();
   };
+  const disconnectHealthProvider = async () => {
+    if (!healthProvider) {
+      return;
+    }
 
-  const isSDKProvider = item.slug === 'apple_health_kit'
-    || item.slug === 'health_connect';
+    try {
+      await VitalHealth.disconnect(healthProvider);
+      await onDisconnect();
+      handleClose();
+    } catch (error) {
+      console.warn(`Failed to disconnect ${item.slug}`, error);
+    }
+  };
+
+  const healthProvider: HealthProvider | null =
+    item.slug === IOSHealthProvider.AppleHealthKit ||
+    item.slug === AndroidHealthProvider.HealthConnect ||
+    item.slug === AndroidHealthProvider.SamsungHealth
+      ? (item.slug as HealthProvider)
+      : null;
+
+  const isSDKProvider = healthProvider !== null;
 
   const [isHydratingSettings, setHydratingSettings] = useState<Boolean>(true);
   const [shouldPauseSync, setPauseSync] = useState<boolean | undefined>(undefined);
   const [isBgSyncEnabled, setBgSyncEnabled] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
+    if (!healthProvider) {
+      setHydratingSettings(false);
+      return;
+    }
+
+    let isCancelled = false;
+    setHydratingSettings(true);
+
     Promise
-      .all([VitalHealth.pauseSynchronization, VitalHealth.isBackgroundSyncEnabled])
+      .all([
+        VitalHealth.isProviderSynchronizationPaused(healthProvider),
+        VitalHealth.isBackgroundSyncEnabledForProvider(healthProvider),
+      ])
       .then(([paused, enabled]) => {
+        if (isCancelled) {
+          return;
+        }
+
         setPauseSync(paused);
         setBgSyncEnabled(enabled);
         setHydratingSettings(false);
+      })
+      .catch(error => {
+        if (isCancelled) {
+          return;
+        }
+
+        console.warn(`Failed to hydrate settings for ${item.slug}`, error);
+        setHydratingSettings(false);
       });
-  }, [userId]);
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [healthProvider, item.slug, userId]);
 
   const onBgSyncSwitchChange = (shouldEnable: boolean) => {
-    if (Platform.OS !== 'android') {
+    if (Platform.OS !== 'android' || !healthProvider) {
       setBgSyncEnabled(true);
       return;
     }
@@ -97,20 +148,28 @@ const ListItem = ({
     setBgSyncEnabled(shouldEnable);
 
     if (shouldEnable) {
-      VitalHealth.enableBackgroundSync()
+      VitalHealth.enableBackgroundSync(healthProvider)
         .then((success) => setBgSyncEnabled(success));
     } else {
-      VitalHealth.disableBackgroundSync()
+      VitalHealth.disableBackgroundSync(healthProvider)
         .then(() => setBgSyncEnabled(false));
     }
   };
   const onShareSwitchChange = (shouldShare: boolean) => {
+    if (!healthProvider) {
+      return;
+    }
+
     setPauseSync(!shouldShare);
-    VitalHealth.setPauseSynchronization(!shouldShare);
+    VitalHealth.setPauseSynchronization(!shouldShare, healthProvider);
   };
 
   const openSyncProgressView = () => {
-    VitalHealth.openSyncProgressView();
+    if (!healthProvider) {
+      return;
+    }
+
+    VitalHealth.openSyncProgressView(healthProvider);
     handleClose();
   };
 
@@ -218,13 +277,16 @@ const ListItem = ({
               </ActionsheetItemText>
             </ActionsheetItem>
           )}
-          {!isSDKProvider && (
-            <ActionsheetItem onPress={() => disconnectProvider(userId)}>
-              <ActionsheetItemText color={colors.text}>
-                Disconnect
-              </ActionsheetItemText>
-            </ActionsheetItem>
-          )}
+          <ActionsheetItem
+            onPress={() =>
+              isSDKProvider
+                ? disconnectHealthProvider()
+                : disconnectProvider(userId)
+            }>
+            <ActionsheetItemText color={colors.text}>
+              Disconnect
+            </ActionsheetItemText>
+          </ActionsheetItem>
         </ActionsheetContent>
       </Actionsheet>
     </Box>

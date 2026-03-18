@@ -44,12 +44,16 @@ export function formatTimeString(seconds: number) {
 export const getSDKDevicesForPlatform = (
   devices: Provider[],
   enableHealthConnect: boolean,
+  enableSamsungHealth: boolean,
   enableHealthKit: boolean,
   currentPlatform: string,
 ) => {
-  if (enableHealthConnect && currentPlatform === 'android') {
+  if (currentPlatform === 'android') {
     return devices.filter(
-      el => el.auth_type === 'oauth' || el.slug === 'health_connect',
+      el =>
+        el.auth_type === 'oauth' ||
+        (enableHealthConnect && el.slug === 'health_connect') ||
+        (enableSamsungHealth && el.slug === 'samsung_health'),
     );
   } else if (enableHealthKit && currentPlatform === 'ios') {
     return devices.filter(
