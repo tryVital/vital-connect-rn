@@ -75,12 +75,12 @@ const ListItem = ({
     handleClose();
   };
   const disconnectHealthProvider = async () => {
-    if (!healthProvider) {
+    if (!usableSDKProvider) {
       return;
     }
 
     try {
-      await VitalHealth.disconnect(healthProvider);
+      await VitalHealth.disconnect(usableSDKProvider);
       await onDisconnect();
       handleClose();
     } catch (error) {
@@ -88,21 +88,20 @@ const ListItem = ({
     }
   };
 
-  const healthProvider: HealthProvider | null =
-    item.slug === IOSHealthProvider.AppleHealthKit ||
-    item.slug === AndroidHealthProvider.HealthConnect ||
-    item.slug === AndroidHealthProvider.SamsungHealth
+  const usableSDKProvider: HealthProvider | null =
+    Platform.OS === "ios" && item.slug === IOSHealthProvider.AppleHealthKit ||
+    Platform.OS === "android" &&
+      (item.slug === AndroidHealthProvider.HealthConnect ||
+      item.slug === AndroidHealthProvider.SamsungHealth)
       ? (item.slug as HealthProvider)
       : null;
-
-  const isSDKProvider = healthProvider !== null;
 
   const [isHydratingSettings, setHydratingSettings] = useState<Boolean>(true);
   const [shouldPauseSync, setPauseSync] = useState<boolean | undefined>(undefined);
   const [isBgSyncEnabled, setBgSyncEnabled] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
-    if (!healthProvider) {
+    if (!usableSDKProvider) {
       setHydratingSettings(false);
       return;
     }
@@ -112,8 +111,8 @@ const ListItem = ({
 
     Promise
       .all([
-        VitalHealth.isProviderSynchronizationPaused(healthProvider),
-        VitalHealth.isBackgroundSyncEnabledForProvider(healthProvider),
+        VitalHealth.isProviderSynchronizationPaused(usableSDKProvider),
+        VitalHealth.isBackgroundSyncEnabledForProvider(usableSDKProvider),
       ])
       .then(([paused, enabled]) => {
         if (isCancelled) {
@@ -136,10 +135,10 @@ const ListItem = ({
     return () => {
       isCancelled = true;
     };
-  }, [healthProvider, item.slug, userId]);
+  }, [usableSDKProvider, item.slug, userId]);
 
   const onBgSyncSwitchChange = (shouldEnable: boolean) => {
-    if (Platform.OS !== 'android' || !healthProvider) {
+    if (Platform.OS !== 'android' || !usableSDKProvider) {
       setBgSyncEnabled(true);
       return;
     }
@@ -148,28 +147,28 @@ const ListItem = ({
     setBgSyncEnabled(shouldEnable);
 
     if (shouldEnable) {
-      VitalHealth.enableBackgroundSync(healthProvider)
+      VitalHealth.enableBackgroundSync(usableSDKProvider)
         .then((success) => setBgSyncEnabled(success));
     } else {
-      VitalHealth.disableBackgroundSync(healthProvider)
+      VitalHealth.disableBackgroundSync(usableSDKProvider)
         .then(() => setBgSyncEnabled(false));
     }
   };
   const onShareSwitchChange = (shouldShare: boolean) => {
-    if (!healthProvider) {
+    if (!usableSDKProvider) {
       return;
     }
 
     setPauseSync(!shouldShare);
-    VitalHealth.setPauseSynchronization(!shouldShare, healthProvider);
+    VitalHealth.setPauseSynchronization(!shouldShare, usableSDKProvider);
   };
 
   const openSyncProgressView = () => {
-    if (!healthProvider) {
+    if (!usableSDKProvider) {
       return;
     }
 
-    VitalHealth.openSyncProgressView(healthProvider);
+    VitalHealth.openSyncProgressView(usableSDKProvider);
     handleClose();
   };
 
@@ -204,10 +203,10 @@ const ListItem = ({
             </VStack>
           </HStack>
 
-          {isSDKProvider && isHydratingSettings && (
+          {usableSDKProvider && isHydratingSettings && (
             <ActivityIndicator />
           )}
-          {isSDKProvider && !isHydratingSettings && <>
+          {usableSDKProvider && !isHydratingSettings && <>
             {/** 
              * Optional SDK feature: Pause Data Synchronization
              * 
@@ -279,7 +278,7 @@ const ListItem = ({
           )}
           <ActionsheetItem
             onPress={() =>
-              isSDKProvider
+              usableSDKProvider
                 ? disconnectHealthProvider()
                 : disconnectProvider(userId)
             }>
