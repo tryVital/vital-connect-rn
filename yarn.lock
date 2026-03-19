@@ -1718,7 +1718,7 @@
   resolved "https://registry.yarnpkg.com/@gluestack-style/legend-motion-animation-driver/-/legend-motion-animation-driver-1.0.3.tgz#e2408ff8515ced92cb75f096f5eeff1f9636a0da"
   integrity sha512-sD6aFS6Tq5XpyjrboFEIc8LrRY4TA4kodFYHzk6mDchvbkdLODijtjnaDQB1UqihOkMRg49e7ANRAOzc7eymaQ==
 
-"@gluestack-style/react@^1.0.29":
+"@gluestack-style/react@^1.0.48":
   version "1.0.57"
   resolved "https://registry.yarnpkg.com/@gluestack-style/react/-/react-1.0.57.tgz#96dbf667e373c5eed9f2314e7885a9a5b5df6775"
   integrity sha512-jaG78zurLNiZyJleZnCbgugTpL6OWtBkE7XKur9C9FYUicekMh11RY++2gyN4T7GJx80v5S/NHIwm/GxAAxtRw==
@@ -1796,7 +1796,7 @@
     "@react-native-aria/utils" "0.2.12"
     "@react-stately/checkbox" "^3.4.2"
 
-"@gluestack-ui/config@^1.0.10":
+"@gluestack-ui/config@^1.0.48":
   version "1.1.20"
   resolved "https://registry.yarnpkg.com/@gluestack-ui/config/-/config-1.1.20.tgz#d1dcdde67fc91ff3217638b6faa24c04ba7a5c9e"
   integrity sha512-kgIzcRZfrzdNiKry7TcgsS85SgACxSRxaLTWdxoNPB/WaJ+XrCbKbaBuQOiELW33dgl2IdyUw60V8XlsLM+f2A==
@@ -2020,7 +2020,7 @@
     "@react-native-aria/focus" "^0.2.9"
     "@react-native-aria/interactions" "^0.2.16"
 
-"@gluestack-ui/themed@^1.0.30":
+"@gluestack-ui/themed@^1.0.48":
   version "1.1.73"
   resolved "https://registry.yarnpkg.com/@gluestack-ui/themed/-/themed-1.1.73.tgz#eee5877f25b0b7a39d8c9b9268878a0cb17c731e"
   integrity sha512-Gx1vTRzP05liSn6qRJ4Kk/OoZUm5A19VjkcFQTtOplldMqmcfj83+cfY2Be+8goqWJD9MXk0kBineE15QeqZtg==

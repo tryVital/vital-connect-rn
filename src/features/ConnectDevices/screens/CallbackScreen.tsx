@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   useColorScheme,
@@ -10,6 +9,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import {makeStyles} from '../../../lib/theme';
 import {useTheme} from '@react-navigation/native';
 import {Text} from '../../../components/Text';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const CallbackScreen = ({route, navigation}) => {
   const {colors} = useTheme();

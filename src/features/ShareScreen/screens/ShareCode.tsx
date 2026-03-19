@@ -6,11 +6,10 @@ import {
   Button,
   ButtonText,
   Spinner,
-  ModalCloseButton,
   HStack,
 } from '@gluestack-ui/themed';
 import React, { useRef } from 'react';
-import {SafeAreaView, useColorScheme} from 'react-native';
+import {useColorScheme} from 'react-native';
 import {AppConfig} from '../../../lib/config';
 import {H1, Text} from '../../../components/Text';
 import {useTheme} from '@react-navigation/native';
@@ -18,8 +17,9 @@ import {makeStyles} from '../../../lib/theme';
 import {Client} from '../../../lib/client';
 import {storeData} from '../../../lib/utils';
 import {VitalCore} from '@tryvital/vital-core-react-native';
-import {VitalHealth} from '@tryvital/vital-health-react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { reconcileSdkStatus } from '../../../lib/vitalSdk';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const ShareCodeModal = ({navigation}: {navigation: any}) => {
   const {colors} = useTheme();
@@ -51,6 +51,8 @@ export const ShareCodeModal = ({navigation}: {navigation: any}) => {
 
       await storeData('team', resp.team);
       await storeData('user_id', resp.user_id);
+
+      await reconcileSdkStatus()
 
       navigation.goBack();
 

@@ -15,7 +15,6 @@ import {
 } from '@gluestack-ui/themed';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import React, {useEffect} from 'react';
-import {SafeAreaView} from 'react-native';
 import {H2, H1, Text} from '../../../components/Text';
 import {useTheme} from '@react-navigation/native';
 import {makeStyles} from '../../../lib/theme';
@@ -27,6 +26,7 @@ import {ConnectDevicesCard} from '../../../components/Card/ShareDataCard';
 import {Client} from '../../../lib/client';
 import {useQuery} from '@tanstack/react-query';
 import {useRefetchOnFocus} from '../../../hooks/query';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const NotSharing = ({
   navigation,

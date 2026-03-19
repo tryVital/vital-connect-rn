@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Platform, SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+import {Platform, StatusBar, useColorScheme} from 'react-native';
 import {VStack, ScrollView, HStack} from '@gluestack-ui/themed';
 import {H1, Text} from '../../../components/Text';
 import {useTheme} from '@react-navigation/native';
@@ -12,14 +12,14 @@ import {
   ConnectDevicesCard,
   ShareDataCard,
 } from '../../../components/Card/ShareDataCard';
-import {getData, getSDKDevicesForPlatform, getUserId} from '../../../lib/utils';
+import {getSDKDevicesForPlatform, getUserId} from '../../../lib/utils';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {AppConfig} from '../../../lib/config';
 import {Client} from '../../../lib/client';
-import {Provider} from '../../../lib/models';
 import SelectDropdown from 'react-native-select-dropdown';
 import {useQuery} from '@tanstack/react-query';
 import {useRefetchOnFocus} from '../../../hooks/query';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const DataCards = ({
   navigation,

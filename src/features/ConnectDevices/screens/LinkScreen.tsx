@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-  SafeAreaView,
-  StatusBar,
   Linking,
   View,
   useColorScheme,
@@ -34,6 +32,7 @@ import {
   VitalResource,
 } from '@tryvital/vital-health-react-native';
 import { configureSDK } from '../../../lib/vitalSdk';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const unavailableHealthProviderMessage = 'Not installed on this device';
 
@@ -289,14 +288,10 @@ export const LinkDeviceScreen = ({navigation}) => {
   }, [navigation]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={styles.container.backgroundColor}
-      />
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <View
         style={{
-          paddingVertical: 10,
+          paddingTop: 32,
           paddingHorizontal: 16,
           flex: 1,
           width: '100%',

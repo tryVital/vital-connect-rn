@@ -1,7 +1,5 @@
 import {
-  SafeAreaView,
   Linking,
-  StatusBar,
   useColorScheme,
   View,
   ActivityIndicator,
@@ -53,7 +51,7 @@ import type {HealthProvider} from '@tryvital/vital-health-react-native';
 import {AppConfig} from '../../../lib/config';
 import {useQuery} from '@tanstack/react-query';
 import { useRefetchOnFocus } from '../../../hooks/query';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ListItem = ({
   userId,
@@ -352,10 +350,11 @@ const AddDeviceButton = ({
   };
 
   return (
-    <HStack width={'100%'} justifyContent="flex-end" space="md">
+    <HStack alignSelf="flex-start" alignItems="center" gap="$4">
       <Button
         size="md"
         variant={'link'}
+        hitSlop={{ top: 7, bottom: 7, left: 7, right: 7 }}
         style={{
           width: 30,
           height: 30,
@@ -373,6 +372,7 @@ const AddDeviceButton = ({
       <Button
         size="md"
         variant={'link'}
+        hitSlop={{ top: 7, bottom: 7, left: 7, right: 7 }}
         style={{
           width: 30,
           height: 30,
@@ -498,22 +498,15 @@ export const ConnectedDevicesScreen = ({navigation}) => {
   console.log({userId, isLoading, isError, error})
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={styles.container.backgroundColor}
-      />
-
-      <VStack height="$12" pt={'$5'} mx="$5">
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+      <HStack pt={'$5'} px="$5" width="$full" justifyContent="space-between" alignItems="center">
+        <H1>My devices</H1>
         <AddDeviceButton
           isDisabled={!isLoading && userId ? false : true}
           colors={colors}
           navigation={navigation}
         />
-      </VStack>
-      <VStack mx="$5">
-        <H1>My devices</H1>
-      </VStack>
+      </HStack>
 
       <ScrollView sx={{flex: 1, mx: '$5'}}>
         <View style={{flex: 1, paddingTop: 16}}>
