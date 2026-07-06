@@ -152,11 +152,14 @@ export const Client = {
       end_date: string,
       provider: string,
     ) => {
-      return await fetchData(
+      const response = await fetchData(
         'sign_in_token',
         'GET',
-        `/timeseries/${userId}/${data_type}?start_date=${start_date}&end_date=${end_date}&provider=${provider}`,
+        `/timeseries/${userId}/${data_type}/grouped?start_date=${start_date}&end_date=${end_date}&provider=${provider}`,
       );
+      return Object.values(response?.groups ?? {})
+        .flat()
+        .flatMap((g: any) => g.data);
     },
     getSummary: async (
       userId: string,
